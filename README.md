@@ -1,1 +1,1 @@
-Experiment 1 - Multistable Perception
+# **Experiment 1 - Multistable Perception**
