@@ -1,6 +1,7 @@
 
 library(deSolve)
 library(rootSolve)
+library(coda)
 library(FME)
 library(Grind)
 
