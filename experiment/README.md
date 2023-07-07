@@ -1,5 +1,3 @@
-# **Experiment 1 - Multistable Perception**
-
 ## **Plan** 
  - single motion quartet with a single trial
  - with parameters: ratio and frequency
