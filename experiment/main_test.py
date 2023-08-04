@@ -1,33 +1,29 @@
 
 # Pelin Ozsezer - Experiment 1
 
-
+# import libraries
 import os
 import time
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from psychopy import core, visual, event, parallel
 
 from psychopy.gui import DlgFromDict
 from psychopy.visual import Window
-#from psychopy.core import Clock, quit, wait
+from psychopy.core import Clock, quit, wait
 from psychopy.event import Mouse
 from psychopy.hardware.keyboard import Keyboard
 
-
-import matplotlib.pyplot as plt
-#import time
-
-from psychopy import visual, event
-from pathlib import Path
-
+# display settings
 win = visual.Window(size = [1920, 1080], units="pix", screen = 0, fullscr=False, allowGUI = False)
 
-# Get refresh rate
+# get refresh rate
 refresh_r = round(win.getActualFrameRate())q
 print(f"refresh rate: {refresh_r} Hz")
 
+# motion quartets
 stimulus_size = 200
 stimulus_speed = 5
 
@@ -35,7 +31,6 @@ upper_left = visual.Rect(win, width=stimulus_size, height=stimulus_size, pos=(-s
 upper_right = visual.Rect(win, width=stimulus_size, height=stimulus_size, pos=(stimulus_size, stimulus_size))
 lower_left = visual.Rect(win, width=stimulus_size, height=stimulus_size, pos=(-stimulus_size, -stimulus_size))
 lower_right = visual.Rect(win, width=stimulus_size, height=stimulus_size, pos=(stimulus_size, -stimulus_size))
-
 stimuli = [upper_left, upper_right, lower_left, lower_right]
 
 while not event.getKeys():
