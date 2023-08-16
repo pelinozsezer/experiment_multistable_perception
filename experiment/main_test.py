@@ -33,7 +33,7 @@ win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, 
 ##############################################################################
 # motion quartets
 stimulus_size = 25
-#speed = 5 # frames per second
+speed = 5 # frames per second
 height=10
 width=30
 
