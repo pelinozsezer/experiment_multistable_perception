@@ -1,26 +1,26 @@
-
+#!pip install psychopy
 ## MAINNNNNN
-!pip install psychopy
 
 # import libraries
 import os
+import sys
 import time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from psychopy import core, visual, event
+from psychopy import gui, core, visual, event
 
 from psychopy.gui import DlgFromDict
 from psychopy.visual import Window
 from psychopy.core import Clock, quit, wait
 #from psychopy.event import Mouse
-#from psychopy.hardware.keyboard import Keyboard
+from psychopy.hardware import keyboard
 
-
-#win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI! # personal laptop
+kb = keyboard.Keyboard()
+keys = kb.getKeys()
+#win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI!
 win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI! # work laptop
-
 
 # # get refresh rate
 # refresh_r = round(win.getActualFrameRate())
@@ -34,10 +34,10 @@ win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, a
 
 ##############################################################################
 # motion quartets
-stimulus_size = 25 # 25 pix
-speed = 5 # frames per second
-height=10 # 10
-width=30 # 30
+stimulus_size = 25
+freq = 7 # ON and OFF is 1 cycle.
+height=10
+width=100
 
 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, -1, -1],lineColor=[-1, -1, 1])
 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, -1, -1],lineColor=[-1, -1, 1])
@@ -54,21 +54,31 @@ core.wait(3.0)
 message.autoDraw = False  # Automatically draw every frame
 
 
+while True:
 
-
-
-for i in list(range(0,3,2)):
-    stimulix[i].draw()
-# stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
-win.flip()
-core.wait(0.5)    
-
-for i in list(range(1,4,2)):
-    stimulix[i].draw()
-# stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
-win.flip()
-core.wait(0.5)  
-
+    duration = 5 # seconds
+    for i in list(range(0,duration)):
+    
+        # 1 second
+        for i in list(range(0,freq)):
+        
+            for i in list(range(0,3,2)):
+                stimulix[i].draw()
+            # stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
+            win.flip()
+            core.wait((1/freq)/2)    
+            
+            for i in list(range(1,4,2)):
+                stimulix[i].draw()
+            # stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
+            win.flip()
+            core.wait((1/freq)/2)  
+    if len(kb.getKeys()) > 0:
+        print('YESSSSSS')
+        # thisKey = kb.getKeys()
+        # print(thisKey)
+        break
+    event.clearEvents()
 
 
 message = visual.TextStim(win, text='LOL')
@@ -83,6 +93,9 @@ win.close()
 core.quit()
 
 
+
+#def draw_motquarts(stimulus_size, height, width):
+    
 
 
 
