@@ -1,6 +1,6 @@
 
-
 ## MAINNNNNN
+!pip install psychopy
 
 # import libraries
 import os
@@ -18,7 +18,9 @@ from psychopy.core import Clock, quit, wait
 #from psychopy.hardware.keyboard import Keyboard
 
 
-win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI!
+#win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI! # personal laptop
+win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI! # work laptop
+
 
 # # get refresh rate
 # refresh_r = round(win.getActualFrameRate())
@@ -32,10 +34,10 @@ win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, 
 
 ##############################################################################
 # motion quartets
-stimulus_size = 25
+stimulus_size = 25 # 25 pix
 speed = 5 # frames per second
-height=10
-width=30
+height=10 # 10
+width=30 # 30
 
 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, -1, -1],lineColor=[-1, -1, 1])
 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, -1, -1],lineColor=[-1, -1, 1])

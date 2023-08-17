@@ -19,9 +19,9 @@ from psychopy.core import Clock, quit, wait
 
 win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI!
 
-# # get refresh rate
-# refresh_r = round(win.getActualFrameRate())
-# print(f"refresh rate: {refresh_r} Hz")
+# get refresh rate
+refresh_r = round(win.getActualFrameRate())
+print(f"refresh rate: {refresh_r} Hz")
 
 # circ_stim=visual.Circle(win, radius=100,units='pix', fillColor=[1, -1, -1],lineColor=[-1, -1, 1], edges=128)
 # circ_stim.draw()
@@ -32,9 +32,9 @@ win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, 
 ##############################################################################
 # motion quartets
 stimulus_size = 25
-freq = 3 # frames per second
+freq = 7 # ON and OFF is 1 cycle.
 height=10
-width=30
+width=100
 
 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, -1, -1],lineColor=[-1, -1, 1])
 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, -1, -1],lineColor=[-1, -1, 1])
@@ -50,21 +50,23 @@ win.flip()
 core.wait(3.0)
 message.autoDraw = False  # Automatically draw every frame
 
+duration = 5 # seconds
+for i in list(range(0,duration)):
 
-
-
-
-for i in list(range(0,3,2)):
-    stimulix[i].draw()
-# stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
-win.flip()
-core.wait(1/freq)    
-
-for i in list(range(1,4,2)):
-    stimulix[i].draw()
-# stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
-win.flip()
-core.wait(1/freq)  
+    # 1 second
+    for i in list(range(0,freq)):
+    
+        for i in list(range(0,3,2)):
+            stimulix[i].draw()
+        # stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
+        win.flip()
+        core.wait((1/freq)/2)    
+        
+        for i in list(range(1,4,2)):
+            stimulix[i].draw()
+        # stimulix[0].draw(); stimulix[1].draw(); stimulix[2].draw(); stimulix[3].draw()
+        win.flip()
+        core.wait((1/freq)/2)  
 
 
 
