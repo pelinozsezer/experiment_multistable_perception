@@ -3,7 +3,6 @@ library(colorspace)
 library(beepr)
 library(magick)
 
-
 n=8
 
 m=matrix(0,n^2,2)
@@ -31,14 +30,12 @@ mask=as.vector(mask)
 # x=x&mask
 # y=y&mask
 
-
 p=seq(-1,1,length=.5*n)
 posx=matrix(rep(p,each=2),n,n,byrow = T)*matrix(rep(c(-1,1),each=n),n,n)
 posy=matrix(rep(p,each=2),n,n,byrow = T)*matrix(rep(c(1,-1)),n,n)
 
 pos=cbind(as.vector(posx),as.vector(posy))
 pos=pos/400
-
 
 
 shiftii=.01
@@ -73,7 +70,6 @@ for(i in 1:ii)
   #Sys.sleep(.1)
    dev.off()
   }
-
 
 list.files(path=paste0("plots/"), pattern = '*.png', full.names = TRUE) %>%
   image_read() %>% # reads each path file
