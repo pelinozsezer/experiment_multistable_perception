@@ -36,7 +36,7 @@ win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, a
 stimulus_size = 25
 freq = 7 # 1 cycle/freq is when all the quartets have been shown.
 height=10
-width=100
+width=10
 
 #def draw_motquarts(stimulus_size, freq, height, width):
 
@@ -72,7 +72,7 @@ while True:
             core.wait((1/freq)/2)  
             
     if len(kb.getKeys()) > 0: # if a key is pressed
-        print('YESSSSSS')
+        print('KEYYYYYYYY')
         # thisKey = kb.getKeys()
         # print(thisKey)
         break
