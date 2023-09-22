@@ -20,7 +20,9 @@ from psychopy.hardware import keyboard
 
 
 kb = keyboard.Keyboard()
-keys = kb.getKeys()
+#keys = kb.getKeys()
+keys = kb.getKeys(['right', 'left', 'quit'], waitRelease=True)
+
 
 #win = visual.Window(size=[1792, 1120]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI! - personal laptop
 win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, allowGUI=True) #allowGUI! - work laptop
@@ -71,8 +73,12 @@ while True:
             win.flip()
             core.wait((1/freq)/2)  
             
-    if len(kb.getKeys()) > 0: # if a key is pressed
+    keyPressed = event.getKeys()
+
+    #if len(kb.getKeys() > 0: # if a key is pressed
+    if len(keyPressed > 0): # if a key is pressed
         print('KEYYYYYYYY')
+        print(keyPressed)
         # thisKey = kb.getKeys()
         # print(thisKey)
         break
@@ -140,7 +146,7 @@ freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 
 
 width_val = []
-current_value = 100
+current_value = 10
 
 # Add values in the increasing phase
 while current_value <= 1400:
@@ -199,7 +205,7 @@ for width in width_val:
     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
     stimuli = [upper_left, upper_right, lower_right, lower_left]
     
-    duration = 2 # seconds
+    duration = 1 # seconds
     for i in list(range(0,duration)):
     
         # 1 second
@@ -238,7 +244,7 @@ for height in height_val:
     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
     stimuli = [upper_left, upper_right, lower_right, lower_left]
     
-    duration = 2 # seconds
+    duration =  1 # seconds
     for i in list(range(0,duration)):
     
         # 1 second
