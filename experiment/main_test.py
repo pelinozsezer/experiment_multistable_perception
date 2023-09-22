@@ -131,7 +131,7 @@ win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, a
 ###############################################################################
 
 # MQ parameters
-stimulus_size = 25
+stimulus_size = 30
 freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 # height=100
 # width=200
