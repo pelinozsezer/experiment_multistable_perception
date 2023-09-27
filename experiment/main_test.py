@@ -1,3 +1,5 @@
+# responselar icin pythonda matrixe yaz ve sonra disa aktar.
+
 
 # Pelin Ozsezer 
 
@@ -103,6 +105,8 @@ core.quit()
 ###### Hysteresis Part ###########
 ##################################
 
+
+# 1 cycle = trial genisleyen sonra uzayan sonra kare. 
 # Pelin Ozsezer 
 
 #!pip install psychopy
@@ -136,8 +140,17 @@ win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, a
 
 ###############################################################################
 
+
+
+# key response change (key release & other key press)- AR - time 
+# label - timing: her bir tip icin ayri kod.
+# set background color yourself.
+# ADD color parameter: brighter than background - close to white
+
+ # ADD MULTIPLIER 
+multiplier=4
 # MQ parameters
-stimulus_size = 10
+stimulus_size = 10*multiplier
 freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 # height=100
 # width=200
@@ -146,17 +159,17 @@ freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 
 
 width_val = []
-current_value = 17.5
+current_value = 17.5*multiplier
 
 # Add values in the increasing phase
-while current_value <= 90:
+while current_value <= 90*multiplier:
     width_val.append(current_value)
-    current_value += 3
+    current_value += 3*multiplier
 
 # Subtract values in the decreasing phase
-while current_value >= 17.5:
+while current_value >= 17.5*multiplier:
     width_val.append(current_value)
-    current_value -= 3
+    current_value -= 3*multiplier
 # Now, 'values' contains the desired array
 print(width_val)
 
@@ -164,17 +177,17 @@ print(width_val)
 
 
 height_val = []
-current_value = 17.5
+current_value = 17.5*multiplier
 
 # Add values in the increasing phase
-while current_value <= 90:
+while current_value <= 90*multiplier:
     height_val.append(current_value)
-    current_value += 3
+    current_value += 3*multiplier
 
 # Subtract values in the decreasing phase
-while current_value >= 17.5:
+while current_value >= 17.5*multiplier:
     height_val.append(current_value)
-    current_value -= 3
+    current_value -= 3*multiplier
 
 # Now, 'values' contains the desired array
 print(height_val)
@@ -195,7 +208,7 @@ message.autoDraw = False
 
 
 for width in width_val:
-    height=360/width
+    height=(360/width)*multiplier
     
     # prepare stimuli
     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
@@ -229,11 +242,11 @@ event.clearEvents()
 
 
 
-
+# key response accruta timign in psychopy? 
 
 
 for height in height_val:
-    width=360/height
+    width=(360/height)*multiplier
     
     
     # prepare stimuli
