@@ -137,7 +137,7 @@ win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, a
 ###############################################################################
 
 # MQ parameters
-stimulus_size = 30
+stimulus_size = 15
 freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 # height=100
 # width=200
@@ -146,18 +146,17 @@ freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 
 
 width_val = []
-current_value = 10
+current_value = 17.5
 
 # Add values in the increasing phase
-while current_value <= 1400:
+while current_value <= 90:
     width_val.append(current_value)
-    current_value += 200
+    current_value += 3
 
 # Subtract values in the decreasing phase
-while current_value >= 100:
+while current_value >= 17.5:
     width_val.append(current_value)
-    current_value -= 200
-
+    current_value -= 3
 # Now, 'values' contains the desired array
 print(width_val)
 
@@ -165,17 +164,17 @@ print(width_val)
 
 
 height_val = []
-current_value = 100
+current_value = 17.5
 
 # Add values in the increasing phase
-while current_value <= 1000:
+while current_value <= 90:
     height_val.append(current_value)
-    current_value += 200
+    current_value += 3
 
 # Subtract values in the decreasing phase
-while current_value >= 100:
+while current_value >= 17.5:
     height_val.append(current_value)
-    current_value -= 200
+    current_value -= 3
 
 # Now, 'values' contains the desired array
 print(height_val)
@@ -196,7 +195,7 @@ message.autoDraw = False
 
 
 for width in width_val:
-    height=1400/width
+    height=360/width
     
     # prepare stimuli
     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
@@ -234,7 +233,7 @@ event.clearEvents()
 
 
 for height in height_val:
-    width=1000/height
+    width=360/height
     
     
     # prepare stimuli
