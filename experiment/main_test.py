@@ -122,8 +122,8 @@ import matplotlib.pyplot as plt
 from psychopy import gui, core, visual, event
 
 from psychopy.gui import DlgFromDict
-from psychopy.visual import Window
 from psychopy.core import Clock, quit, wait
+from psychopy.visual import Window
 from psychopy.hardware import keyboard
 
 
@@ -155,7 +155,6 @@ freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 # height=100
 # width=200
 
-# width * height = 20000
 
 
 width_val = []
@@ -204,17 +203,17 @@ win.flip()
 core.wait(3.0)
 message.autoDraw = False
 
-
+color_quartets=[0.9, 0.9, 0.9]
 
 
 for width in width_val:
     height=(360/width)*multiplier
     
     # prepare stimuli
-    upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
-    upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
-    lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
-    lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+    upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+    upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+    lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+    lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
     stimuli = [upper_left, upper_right, lower_right, lower_left]
     
     duration = 1 # seconds
