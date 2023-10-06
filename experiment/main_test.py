@@ -148,7 +148,7 @@ win = visual.Window(size=[1512, 982]) #units="pix", screen = 0, fullscr=False, a
 # ADD color parameter: brighter than background - close to white
 
  # ADD MULTIPLIER 
-multiplier=4
+multiplier=1.5
 # MQ parameters
 stimulus_size = 10*multiplier
 freq = 2 # 1 cycle/freq is when all the quartets have been shown.

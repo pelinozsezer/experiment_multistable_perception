@@ -39,7 +39,8 @@ kb = keyboard.Keyboard()
 keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 
 # PARAMETERS
-scaler=4
+scaler=1.5
+n_trials_training=20
 
 # MQ parameters
 stimulus_size = 10*scaler
@@ -87,7 +88,7 @@ message.autoDraw = False
 # TRAINING PHASE
 # 50 trials - z=horizontal & m=vertical
 import random
-training_phase = ['vertical'] * 25 + ['horizontal'] * 25
+training_phase = ['vertical'] * int(n_trials_training/2) + ['horizontal'] * int(n_trials_training/2) 
 random.shuffle(training_phase)
 print(training_phase)
 
@@ -111,10 +112,11 @@ while True:
         break 
 #message.autoDraw = False
 
-for i in range(1,51):
+for i in range(1,n_trials_training+1):
+    
     if training_phase[i]=="vertical":
         
-        duration = 1 # seconds
+        duration = 2 # seconds
         for i in list(range(0,duration)):
         
             # 1 second
@@ -129,10 +131,22 @@ for i in range(1,51):
                     stimuli[i].draw()
                 win.flip()
                 core.wait((1/freq)/2)  
+                
+            keyPressed = event.getKeys()
+            if keyPressed == ["m"]:
+                message = visual.TextStim(win, text='CORRECT').draw()
+                win.flip()
+                break 
+            else:
+                message = visual.TextStim(win, text='INCORRECT').draw()
+                win.flip()
+                break 
+
+    
     
     if training_phase[i]=="horizontal":
         
-        duration = 1 # seconds
+        duration = 2 # seconds
         for i in list(range(0,duration)):
         
             # 1 second
@@ -147,6 +161,16 @@ for i in range(1,51):
                     stimuli[i].draw()
                 win.flip()
                 core.wait((1/freq)/2)  
+                
+            keyPressed = event.getKeys()
+            if keyPressed == ["z"]:
+                message = visual.TextStim(win, text='CORRECT').draw()
+                win.flip()
+                break 
+            else:
+                message = visual.TextStim(win, text='INCORRECT').draw()
+                win.flip()
+                break 
     
 win.close()
 core.quit()
