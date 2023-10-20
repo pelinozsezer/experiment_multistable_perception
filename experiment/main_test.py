@@ -283,7 +283,11 @@ event.clearEvents()
 
 
 
-
+def find_dimensions(lst):
+    if not isinstance(lst, list):
+        return 0  # This is not a list, so it has 0 dimensions.
+    # Recursively find the dimensions of the nested list and add 1 for the current level.
+    return 1 + find_dimensions(lst[1])
 
 
 
@@ -308,7 +312,12 @@ core.quit()
 
 
 
-    
+
+
+
+## FIXATION CROSS
+
+
 
 
 

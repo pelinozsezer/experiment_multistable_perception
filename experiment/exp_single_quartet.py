@@ -19,7 +19,7 @@ from psychopy.visual import Window
 from psychopy.hardware import keyboard
 
 # TO-ADD
-# 1) key response change (key release & other key press)- AR - time 
+# 1) key response change (key release & other key press) - AR - time 
 # 2) add def like 'draw_motion_quartet(stimulus_size, freq, height, width)'
 
 # COLORS
@@ -111,8 +111,20 @@ while True:
     if keyPressed == ["space"]:
         break 
 #message.autoDraw = False
+# fixation cross
+fixation = visual.ShapeStim(win, 
+    vertices=((0, -0.05), (0, 0.05), (0,0), (-0.05,0), (0.05, 0)),
+    lineWidth=75,
+    closeShape=False,
+    lineColor="white"
+)
+#
 
-for i in range(1,n_trials_training+1):
+fixation.draw()
+win.flip()
+core.wait(2)
+    
+for i in range(n_trials_training):
     
     if training_phase[i]=="vertical":
         
@@ -132,17 +144,17 @@ for i in range(1,n_trials_training+1):
                 win.flip()
                 core.wait((1/freq)/2)  
                 
-            keyPressed = event.getKeys()
-            if keyPressed == ["m"]:
-                message = visual.TextStim(win, text='CORRECT').draw()
-                win.flip()
-                break 
-            else:
-                message = visual.TextStim(win, text='INCORRECT').draw()
-                win.flip()
-                break 
+        keyPressed = event.getKeys()
+        if keyPressed == ["m"]:
+            message = visual.TextStim(win, text='CORRECT').draw()
+            win.flip()
+            break 
+        else:
+            message = visual.TextStim(win, text='INCORRECT').draw()
+            win.flip()
+            break 
 
-    
+    # get history of event.getkeys
     
     if training_phase[i]=="horizontal":
         
@@ -174,6 +186,146 @@ for i in range(1,n_trials_training+1):
     
 win.close()
 core.quit()
+
+
+
+# # EXPERIMENT PHASE
+# # 1 cycle - trial: extending square first horizontally, then vertically
+
+# width_val = []
+# current_value = 17.5*scaler
+
+# # Add values in the increasing phase
+# while current_value <= 90*scaler:
+#     width_val.append(current_value)
+#     current_value += 3*scaler
+
+# # Subtract values in the decreasing phase
+# while current_value >= 17.5*scaler:
+#     width_val.append(current_value)
+#     current_value -= 3*scaler
+# # Now, 'values' contains the desired array
+# print(width_val)
+
+
+
+
+# height_val = []
+# current_value = 17.5*scaler
+
+# # Add values in the increasing phase
+# while current_value <= 90*scaler:
+#     height_val.append(current_value)
+#     current_value += 3*scaler
+
+# # Subtract values in the decreasing phase
+# while current_value >= 17.5*scaler:
+#     height_val.append(current_value)
+#     current_value -= 3*scaler
+
+# # Now, 'values' contains the desired array
+# print(height_val)
+
+
+
+# #def draw_motquarts(stimulus_size, freq, height, width):
+
+
+
+# message = visual.TextStim(win, text='Wait')
+# message.autoDraw = True  # Automatically draw every frame
+# win.flip()
+# core.wait(3.0)
+# message.autoDraw = False
+
+# color_quartets=[0.9, 0.9, 0.9]
+
+
+# for width in width_val:
+#     height=(360/width)*scaler
+    
+#     # prepare stimuli
+#     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+#     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+#     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+#     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+#     stimuli = [upper_left, upper_right, lower_right, lower_left]
+    
+#     duration = 1 # seconds
+#     for i in list(range(0,duration)):
+    
+#         # 1 second
+#         for i in list(range(0,freq)):
+        
+#             for i in list(range(0,3,2)):
+#                 stimuli[i].draw()
+#             win.flip()
+#             core.wait((1/freq)/2)    
+            
+#             for i in list(range(1,4,2)):
+#                 stimuli[i].draw()
+#             win.flip()
+#             core.wait((1/freq)/2)  
+            
+#     # if len(kb.getKeys()) > 0: # if a key is pressed
+#     #     print('KEYYYYYYYY')
+#     #     # thisKey = kb.getKeys()
+#     #     # print(thisKey)
+#     #     break
+# event.clearEvents()
+
+
+
+# # key response accruta timign in psychopy? 
+
+
+# for height in height_val:
+#     width=(360/height)*scaler
+    
+    
+#     # prepare stimuli
+#     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[11, 1, 1])
+#     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+#     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+#     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+#     stimuli = [upper_left, upper_right, lower_right, lower_left]
+    
+#     duration =  1 # seconds
+#     for i in list(range(0,duration)):
+    
+#         # 1 second
+#         for i in list(range(0,freq)):
+        
+#             for i in list(range(0,3,2)):
+#                 stimuli[i].draw()
+#             win.flip()
+#             core.wait((1/freq)/2)    
+            
+#             for i in list(range(1,4,2)):
+#                 stimuli[i].draw()
+#             win.flip()
+#             core.wait((1/freq)/2)  
+            
+#     # if len(kb.getKeys()) > 0: # if a key is pressed
+#     #     print('KEYYYYYYYY')
+#     #     # thisKey = kb.getKeys()
+#     #     # print(thisKey)
+#     #     break
+# event.clearEvents()
+
+
+
+
+# message = visual.TextStim(win, text='END')
+# message.autoDraw = True  # Automatically draw every frame
+# win.flip()
+# core.wait(2.0)
+# message.text = 'Did it work?' 
+# win.flip() 
+# core.wait(2.0)
+
+# win.close()
+# core.quit()
 
 
 
