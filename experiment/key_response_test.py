@@ -19,8 +19,10 @@ for key in keys:
 
 ##
 
+from psychopy import DlgFromDict
 
-
+exp_info = {'participant_nr': ''}  # no default!
+dlg = DlgFromDict(exp_info)
 
 
 keyPressed = event.getKeys()

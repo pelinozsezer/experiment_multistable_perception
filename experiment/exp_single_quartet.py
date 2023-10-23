@@ -107,9 +107,14 @@ while True:
     message = visual.TextStim(win, text='Press "z" for horizontal & "m" for vertical; "space" for continue').draw()
     #message.autoDraw = True  # Automatically draw every frame
     win.flip()
-    keyPressed = event.getKeys()
+    keyPressed = kb.waitKeys()
     if keyPressed == ["space"]:
         break 
+    
+    
+
+
+
 #message.autoDraw = False
 # fixation cross
 fixation = visual.ShapeStim(win, 
@@ -144,14 +149,24 @@ for i in range(n_trials_training):
                 win.flip()
                 core.wait((1/freq)/2)  
                 
-        keyPressed = event.getKeys()
+                # We need to reset the clock!
+        kb.clock.reset()
+        while kb.clock.getTime() < 2:
+            keys = kb.getKeys()
+            for key in keys:
+                # The `:.3f` part in the F-string makes sure the float is only displayed with 3 decimals!
+                print(f"The '{key.name}' key was pressed within {key.rt:.3f} seconds for a total of {key.duration:.3f} seconds")
+                
+        keyPressed = kb.getKeys()
         if keyPressed == ["m"]:
             message = visual.TextStim(win, text='CORRECT').draw()
             win.flip()
+            core.wait(1)
             break 
         else:
             message = visual.TextStim(win, text='INCORRECT').draw()
             win.flip()
+            core.wait(1)
             break 
 
     # get history of event.getkeys
