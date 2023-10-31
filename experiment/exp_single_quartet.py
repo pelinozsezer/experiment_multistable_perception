@@ -133,7 +133,12 @@ for i in range(n_trials_training):
     
     if training_phase[i]=="vertical":
         
+        fixation.draw()
+        win.flip()
+        core.wait(1)
+        
         duration = 2 # seconds
+        kb.clock.reset()
         for i in list(range(0,duration)):
         
             # 1 second
@@ -150,30 +155,35 @@ for i in range(n_trials_training):
                 core.wait((1/freq)/2)  
                 
                 # We need to reset the clock!
-        kb.clock.reset()
-        while kb.clock.getTime() < 2:
-            keys = kb.getKeys()
-            for key in keys:
-                # The `:.3f` part in the F-string makes sure the float is only displayed with 3 decimals!
-                print(f"The '{key.name}' key was pressed within {key.rt:.3f} seconds for a total of {key.duration:.3f} seconds")
                 
-        keyPressed = kb.getKeys()
-        if keyPressed == ["m"]:
-            message = visual.TextStim(win, text='CORRECT').draw()
-            win.flip()
-            core.wait(1)
-            break 
-        else:
-            message = visual.TextStim(win, text='INCORRECT').draw()
-            win.flip()
-            core.wait(1)
-            break 
+                
+        while kb.clock.getTime() < 2:
+            keyPressed = kb.waitKeys(keyList=['z','m'])
+            # for key in keys:
+            #     # The `:.3f` part in the F-string makes sure the float is only displayed with 3 decimals!
+            #     print(f"The '{key.name}' key was pressed within {key.rt:.3f} seconds for a total of {key.duration:.3f} seconds")
+                
+            if keyPressed[-1] == ["m"]:
+                message = visual.TextStim(win, text='CORRECT').draw()
+                win.flip()
+                core.wait(1)
+                break 
+            else:
+                message = visual.TextStim(win, text='INCORRECT').draw()
+                win.flip()
+                core.wait(1)
+                break 
 
     # get history of event.getkeys
     
     if training_phase[i]=="horizontal":
         
+        fixation.draw()
+        win.flip()
+        core.wait(1)
+        
         duration = 2 # seconds
+        kb.clock.reset()
         for i in list(range(0,duration)):
         
             # 1 second
@@ -189,14 +199,22 @@ for i in range(n_trials_training):
                 win.flip()
                 core.wait((1/freq)/2)  
                 
-            keyPressed = event.getKeys()
-            if keyPressed == ["z"]:
+        
+        while kb.clock.getTime() < 2:
+            keyPressed = kb.waitKeys(keyList=['z','m'])
+            # for key in keys:
+            #     # The `:.3f` part in the F-string makes sure the float is only displayed with 3 decimals!
+            #     print(f"The '{key.name}' key was pressed within {key.rt:.3f} seconds for a total of {key.duration:.3f} seconds")
+                
+            if keyPressed[-1] == ["z"]:
                 message = visual.TextStim(win, text='CORRECT').draw()
                 win.flip()
+                core.wait(1)
                 break 
             else:
                 message = visual.TextStim(win, text='INCORRECT').draw()
                 win.flip()
+                core.wait(1)
                 break 
     
 win.close()
