@@ -1,7 +1,7 @@
 
 # Pelin Ozsezer - 5th Oct 2023
 
-## Experiment for Single Motion Quartet ##
+### Experiment for Single Motion Quartet ###
 
 # import libraries
 #!pip install psychopy
@@ -52,12 +52,12 @@ keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 ## PARAMETERS ##
 scaler=1.5
 
-n_trials_training=4
+n_trials_training=10
 corr_resp_training=0
 accuracy_training=0
 
 block_number_experiment=1
-trial_number_experiment=1
+trial_number_experiment=3
 
 # MQ parameters
 stimulus_size = 10*scaler
@@ -112,53 +112,51 @@ message.autoDraw = False
 
 
 
+# ### TRAINING PHASE ###
+# # 20 trials - z=horizontal & m=vertical
+# import random
+# training_phase = ['vertical'] * int(n_trials_training/2) + ['horizontal'] * int(n_trials_training/2) 
+# random.shuffle(training_phase)
+# print(training_phase)
 
 
+# # prepare stimuli
+# width=20
+# height=20
 
-### TRAINING PHASE ###
-# 20 trials - z=horizontal & m=vertical
-import random
-training_phase = ['vertical'] * int(n_trials_training/2) + ['horizontal'] * int(n_trials_training/2) 
-random.shuffle(training_phase)
-print(training_phase)
-
-
-# prepare stimuli
-width=20
-height=20
-
-upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-stimuli = [upper_left, upper_right, lower_left, lower_right]
+# upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# stimuli = [upper_left, upper_right, lower_left, lower_right]
 
 
-while True:
-    message = visual.TextStim(win, text='Press "z" for horizontal & "m" for vertical; "space" for continue').draw()
-    #message.autoDraw = True  # Automatically draw every frame
-    win.flip()
-    keyPressed = kb.waitKeys()
-    if keyPressed == ["space"]:
-        break 
-    
+# while True:
+#     message = visual.TextStim(win, text='Press "z" for horizontal & "m" for vertical; "space" for continue').draw()
+#     #message.autoDraw = True  # Automatically draw every frame
+#     win.flip()
+#     keyPressed = kb.waitKeys()
+#     if keyPressed == ["space"]:
+#         break 
     
 
 
 
-#message.autoDraw = False
-# fixation cross
-fixation = visual.ShapeStim(win, 
-    vertices=((0, -0.05), (0, 0.05), (0,0), (-0.05,0), (0.05, 0)),
-    lineWidth=75,
-    closeShape=False,
-    lineColor="white"
-)
-#
+
+# #message.autoDraw = False
+# # fixation cross
+# fixation = visual.ShapeStim(win, 
+#     vertices=((0, -0.05), (0, 0.05), (0,0), (-0.05,0), (0.05, 0)),
+#     lineWidth=75,
+#     closeShape=False,
+#     lineColor="white"
+# )
 
 # fixation.draw()
 # win.flip()
 # core.wait(2)
+
+
 
 # training_block=0
 # while accuracy_training < 0.9:
@@ -166,7 +164,7 @@ fixation = visual.ShapeStim(win,
     
 #     if not training_block==0:
 #         while True:
-#             message = visual.TextStim(win, text='Accuracy is lower than 90%. /n It must be more than 90%. /n "space" to continue for more training').draw()
+#             message = visual.TextStim(win, text='Accuracy is lower than 90%. \n It must be more than 90%. \n "space" to continue for more training').draw()
 #             #message.autoDraw = True  # Automatically draw every frame
 #             win.flip()
 #             keyPressed = kb.waitKeys()
@@ -174,8 +172,7 @@ fixation = visual.ShapeStim(win,
 #                 break 
             
  
-        
-    
+            
 #     for trial_no in range(n_trials_training):
         
 #         if training_phase[trial_no]=="vertical":
@@ -193,7 +190,6 @@ fixation = visual.ShapeStim(win,
     
 #                 # 1 second
 #                 for i in list(range(0,freq)):
-#                     # keyPressed = kb.getKeys(keyList=['z','m'])
     
     
 #                     for i in list(range(0,2)):
@@ -250,6 +246,7 @@ fixation = visual.ShapeStim(win,
 #                 training_rt= training_rt+ [keyPressed[0].rt]
                 
 #                 core.wait(1)
+                
 #             else:
 #                 print(keyPressed[0].name)
 #                 message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
@@ -262,28 +259,7 @@ fixation = visual.ShapeStim(win,
 #                 training_rt= training_rt+ [keyPressed[0].rt]
                 
 #                 core.wait(1)        
-                
-#             # while kb.clock.getTime() < 2:
-#             #     keyPressed = kb.waitKeys(keyList=['z','m'])
-#             #     # for key in keys:
-#             #     #     # The `:.3f` part in the F-string makes sure the float is only displayed with 3 decimals!
-#             #     #     print(f"The '{key.name}' key was pressed within {key.rt:.3f} seconds for a total of {key.duration:.3f} seconds")
-                    
-#             # while True:
-#             #     keyPressed = kb.getKeys(['z','m'])
-    
-#             #     if keyPressed[0] == ["m"]:
-#             #         message = visual.TextStim(win, text='CORRECT').draw()
-#             #         win.flip()
-#             #         core.wait(1)
-#             #         break
-#             #     elif keyPressed[0] == ["z"]:
-#             #         message = visual.TextStim(win, text='INCORRECT').draw()
-#             #         win.flip()
-#             #         core.wait(1)
-#             #         break
-    
-#         # get history of event.getkeys
+
         
 #         if training_phase[trial_no]=="horizontal":
             
@@ -313,18 +289,7 @@ fixation = visual.ShapeStim(win,
 #                         stimuli[i].draw()
 #                     win.flip()
 #                     core.wait((1/freq)/2)  
-           
-            
-                    
-            
-#             # while kb.clock.getTime() < 2:
-#             #     keyPressed = kb.waitKeys(keyList=['z','m'])
-#             #     # for key in keys:
-#             #     #     # The `:.3f` part in the F-string makes sure the float is only displayed with 3 decimals!
-#             #     #     print(f"The '{key.name}' key was pressed within {key.rt:.3f} seconds for a total of {key.duration:.3f} seconds")
-            
-#             # while True:
-#             #     keyPressed = kb.getKeys(['z','m'])
+
 #             keyPressed = kb.getKeys()
             
 #             if keyPressed == []:
@@ -352,6 +317,7 @@ fixation = visual.ShapeStim(win,
 #                 training_rt= training_rt+ [keyPressed[0].rt]
                 
 #                 core.wait(1)
+                
 #             elif keyPressed[0].name == "m":
 #                 print(keyPressed[0].name)
 #                 message = visual.TextStim(win, text='INCORRECT').draw()
@@ -364,6 +330,7 @@ fixation = visual.ShapeStim(win,
 #                 training_rt= training_rt+ [keyPressed[0].rt]
                 
 #                 core.wait(1)
+                
 #             else:
 #                 print(keyPressed[0].name)
 #                 message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
@@ -383,8 +350,6 @@ fixation = visual.ShapeStim(win,
 
 
 
-
-
 # # save data from training phase
 # df = pd.DataFrame({'block': training_block_no, 'trial': training_trial_no, 'motion_type': training_motion_type, 'key_response': training_key_response, 'RT': training_rt})
 # training_full_file_path = training_folder_path + '/' + training_file_name
@@ -392,7 +357,7 @@ fixation = visual.ShapeStim(win,
 # print(f"Data saved to '{training_full_file_path}'")
 
 # while True:
-#     message = visual.TextStim(win, text='Training phase has been succesfully completed. "space" to continue').draw()
+#     message = visual.TextStim(win, text='Training phase has been succesfully completed. \n "space" to continue').draw()
 #     #message.autoDraw = True  # Automatically draw every frame
 #     win.flip()
 #     keyPressed = kb.waitKeys()
@@ -411,29 +376,23 @@ fixation = visual.ShapeStim(win,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## EXPERIMENT PHASE ###
-# 1 cycle - trial: extending square first horizontally, then vertically
+
+# fixation cross
+fixation = visual.ShapeStim(win, 
+    vertices=((0, -0.05), (0, 0.05), (0,0), (-0.05,0), (0.05, 0)),
+    lineWidth=75,
+    closeShape=False,
+    lineColor="white"
+)
+
+
+##
+# 1 cycle - trial: extending-shrinking square first horizontally, then vertically
 for block in range(1,block_number_experiment+1):
+    
     for trial in range(1,trial_number_experiment+1):
         scaler=1.5
-        
         
         width_val = []
         result=math.sqrt(360)
@@ -489,10 +448,7 @@ for block in range(1,block_number_experiment+1):
         #     current_value -= 3*scaler
         # # Now, 'values' contains the desired array
         # print(height_val)
-        
-        #def draw_motquarts(stimulus_size, freq, height, width):
-        
-        
+
         
         message = visual.TextStim(win, text='Wait')
         message.autoDraw = True  # Automatically draw every frame
@@ -508,7 +464,8 @@ for block in range(1,block_number_experiment+1):
         
         kb.clock.reset()
         kb.getKeys()
-        # extending horizontally
+        
+        ## extending horizontally
         for width in width_val:
         
             height=(totalx/width)#*scaler
@@ -537,10 +494,8 @@ for block in range(1,block_number_experiment+1):
                         stimuli[i].draw()
                     win.flip()
                     core.wait((1/freq)/2)  
-                    
-                    
-                    
-            # if a key is pressed        
+
+            # if a key is pressed
             if len(kb.getKeys()) > 0:
                 print('key pressed - change of percept')
                 idx_width_keyPress=width_val.index(width)
@@ -574,8 +529,7 @@ for block in range(1,block_number_experiment+1):
                 break
         
         
-        
-        # shrinking horizontally 
+        ## shrinking horizontally 
         
         width_val_shrinking=width_val[:idx_width_keyPress]
         width_val_shrinking.reverse()
@@ -645,12 +599,6 @@ for block in range(1,block_number_experiment+1):
                         
                 break
           
-            
-          
-            
-          
-            
-          
              
         # calculate heights for extending vertically
         height_val = []
@@ -669,13 +617,10 @@ for block in range(1,block_number_experiment+1):
             current_value -= 3*scaler
         # Now, 'values' contains the desired array
         print(height_val)
-        
-        
-        
-        
-        
-        
-        
+
+
+
+        ## extending vertically
         for height in height_val:
             width=(totalx/height)#*scaler
             
@@ -703,7 +648,9 @@ for block in range(1,block_number_experiment+1):
                     win.flip()
                     core.wait((1/freq)/2)  
                     
-            if len(kb.getKeys()) > 0: # if a key is pressed
+                    
+            # if a key is pressed
+            if len(kb.getKeys()) > 0: 
                 print('key pressed - change of percept')
                 idx_height_keyPress=height_val.index(height)
                 idx_height_extend=idx_height_keyPress+1
@@ -737,7 +684,7 @@ for block in range(1,block_number_experiment+1):
         
         
         
-        # shrinking vertically 
+        ## shrinking vertically 
         height_val_shrinking=height_val[:idx_height_keyPress]
         height_val_shrinking.reverse()
         
@@ -752,7 +699,6 @@ for block in range(1,block_number_experiment+1):
             lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
             lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
             stimuli = [upper_left, upper_right, lower_right, lower_left]
-            
             
             
             duration = 1 # seconds
@@ -776,9 +722,9 @@ for block in range(1,block_number_experiment+1):
                 print('key pressed - change of percept')
                 
                 
-          
-           
-
+                
+                
+                
 message = visual.TextStim(win, text='END')
 message.autoDraw = True  # Automatically draw every frame
 win.flip()

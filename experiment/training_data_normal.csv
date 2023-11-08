@@ -1,0 +1,21 @@
+block,trial,motion_type,key_response,RT
+1,1,vertical,m,2.020376749999741
+1,2,horizontal,z,2.0210750416672454
+1,3,vertical,m,2.019615375000285
+1,4,horizontal,other,2.019722708332665
+1,5,vertical,no response,N/A
+1,6,horizontal,no response,N/A
+1,7,vertical,no response,N/A
+1,8,horizontal,m,2.019862458332682
+1,9,horizontal,no response,N/A
+1,10,vertical,no response,N/A
+2,1,vertical,m,2.0210720000004585
+2,2,horizontal,z,2.0210899583344144
+2,3,vertical,m,2.019011208332813
+2,4,horizontal,z,2.019152750000103
+2,5,vertical,m,2.0198546250003346
+2,6,horizontal,z,2.018406750000395
+2,7,vertical,m,2.0195219583338258
+2,8,horizontal,z,2.019573749999836
+2,9,horizontal,z,2.0238632500004314
+2,10,vertical,m,2.0194875416673312
