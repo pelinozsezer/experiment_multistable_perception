@@ -1,1 +1,1 @@
-import sysdef function(x):    if x==1:        print('it works for 1')    else:        print('it works for else')
+import sysx = sys.argvif len(x) > 1:    first_argument = int(x[1])    if first_argument == 1:        print('it works for 1')    else:        print('it works for else')else:    print('No command-line argument provided.')
