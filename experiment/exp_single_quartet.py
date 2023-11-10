@@ -50,9 +50,9 @@ kb = keyboard.Keyboard()
 keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 
 ## PARAMETERS ##
-scaler=1.5
+scaler=1.5 
 
-n_trials_training=10
+n_trials_training=4
 corr_resp_training=0
 accuracy_training=0
 
@@ -61,7 +61,7 @@ trial_number_experiment=3
 
 # MQ parameters
 stimulus_size = 10*scaler
-freq = 2 # 1 cycle or freq is when all the quartets have been shown.
+freq = 5 # 1 cycle or freq is when all the quartets have been shown.
 # height
 # width
 
