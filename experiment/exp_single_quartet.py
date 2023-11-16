@@ -57,11 +57,11 @@ corr_resp_training=0
 accuracy_training=0
 
 block_number_experiment=1
-trial_number_experiment=3
+trial_number_experiment=10
 
 # MQ parameters
 stimulus_size = 10*scaler
-freq = 5 # 1 cycle or freq is when all the quartets have been shown.
+freq = 2 # 1 cycle or freq is when all the quartets have been shown.
 # height
 # width
 
