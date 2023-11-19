@@ -54,7 +54,7 @@ kb = keyboard.Keyboard()
 keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 
 ## PARAMETERS ##
-scaler = 1.5
+scaler = 1
 
 n_trials_training = 4
 corr_resp_training = 0
@@ -111,254 +111,255 @@ message.autoDraw = False
 
 
 
-### TRAINING PHASE ###
-# 20 trials - z=horizontal & m=vertical
-import random
-training_phase = ['vertical'] * int(n_trials_training/2) + ['horizontal'] * int(n_trials_training/2)
-random.shuffle(training_phase)
-print(training_phase)
+# ### TRAINING PHASE ###
+# # 20 trials - z=horizontal & m=vertical
+# import random
+# training_phase = ['vertical'] * int(n_trials_training/2) + ['horizontal'] * int(n_trials_training/2)
+# random.shuffle(training_phase)
+# print(training_phase)
 
 
-# prepare stimuli
-width=20
-height=20
+# # prepare stimuli
+# width=20
+# height=20
 
-upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-stimuli = [upper_left, upper_right, lower_left, lower_right]
+# upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+# stimuli = [upper_left, upper_right, lower_left, lower_right]
 
 
-while True:
-    message = visual.TextStim(win, text='Press "z" for horizontal;\n"m" for vertical;\n"space" for continue').draw()
-    #message.autoDraw = True  # Automatically draw every frame
-    win.flip()
-    keyPressed = kb.waitKeys()
-    if keyPressed == ["space"]:
-        break
+# while True:
+#     message = visual.TextStim(win, text='Press "z" for horizontal;\n"m" for vertical;\n"space" for continue').draw()
+#     #message.autoDraw = True  # Automatically draw every frame
+#     win.flip()
+#     keyPressed = kb.waitKeys()
+#     if keyPressed == ["space"]:
+#         break
 
 
-#message.autoDraw = False
-# fixation cross
-fixation = visual.ShapeStim(win,
-    vertices=((0, -0.05), (0, 0.05), (0,0), (-0.05,0), (0.05, 0)),
-    lineWidth=75,
-    closeShape=False,
-    lineColor="white"
-)
+# #message.autoDraw = False
+# # fixation cross
+# fixation = visual.ShapeStim(win,
+#     vertices=((0, -0.05), (0, 0.05), (0,0), (-0.05,0), (0.05, 0)),
+#     lineWidth=75,
+#     closeShape=False,
+#     lineColor="white"
+# )
 
-fixation.draw()
-win.flip()
-core.wait(2)
+# fixation.draw()
+# win.flip()
+# core.wait(2)
 
 
-training_block=0
-while accuracy_training < 0.9:
+# training_block=0
+# while accuracy_training < 0.9:
 
 
-    if not training_block==0:
-        while True:
-            message = visual.TextStim(win, text='Accuracy is lower than 90%. \n It must be more than 90%. \n "space" to continue for more training').draw()
-            #message.autoDraw = True  # Automatically draw every frame
-            win.flip()
-            keyPressed = kb.waitKeys()
-            if keyPressed == ["space"]:
-                break
+#     if not training_block==0:
+#         while True:
+#             message = visual.TextStim(win, text='Accuracy is lower than 90%. \n It must be more than 90%. \n "space" to continue for more training').draw()
+#             #message.autoDraw = True  # Automatically draw every frame
+#             win.flip()
+#             keyPressed = kb.waitKeys()
+#             if keyPressed == ["space"]:
+#                 break
 
 
-    for trial_no in range(n_trials_training):
+#     for trial_no in range(n_trials_training):
 
-        if training_phase[trial_no]=="vertical":
+#         if training_phase[trial_no]=="vertical":
 
-            fixation.draw()
-            win.flip()
-            core.wait(1)
+#             fixation.draw()
+#             win.flip()
+#             core.wait(1)
 
-            duration = 2 # seconds
+#             duration = 2 # seconds
 
-            kb.getKeys()
-            kb.clock.reset()
+#             kb.getKeys()
+#             kb.clock.reset()
 
-            for i in list(range(0,duration)):
+#             for i in list(range(0,duration)):
 
-                # 1 second
-                for i in list(range(0,freq)):
+#                 # 1 second
+#                 for i in list(range(0,freq)):
 
 
-                    for i in list(range(0,2)):
-                        stimuli[i].draw()
+#                     for i in list(range(0,2)):
+#                         stimuli[i].draw()
 
-                    win.flip()
-                    core.wait((1/freq)/2)
+#                     win.flip()
+#                     core.wait((1/freq)/2)
 
 
-                    for i in list(range(2,4)):
-                        stimuli[i].draw()
-                    win.flip()
-                    core.wait((1/freq)/2)
+#                     for i in list(range(2,4)):
+#                         stimuli[i].draw()
+#                     win.flip()
+#                     core.wait((1/freq)/2)
 
 
-            keyPressed = kb.getKeys()
+#             keyPressed = kb.getKeys()
 
-            if keyPressed == []:
-                print('no response')
-                message = visual.TextStim(win, text='NO RESPONSE').draw()
-                win.flip()
+#             if keyPressed == []:
+#                 print('no response')
+#                 message = visual.TextStim(win, text='NO RESPONSE').draw()
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["vertical"]
-                training_key_response=training_key_response+["no response"]
-                training_rt= training_rt+ ["N/A"]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["vertical"]
+#                 training_key_response=training_key_response+["no response"]
+#                 training_rt= training_rt+ ["N/A"]
 
-                core.wait(1)
+#                 core.wait(1)
 
-            elif keyPressed[0].name == "z":
-                print(keyPressed[0].name)
-                message = visual.TextStim(win, text='INCORRECT').draw()
-                win.flip()
+#             elif keyPressed[0].name == "z":
+#                 print(keyPressed[0].name)
+#                 #print(keyPressed[1].name)
+#                 message = visual.TextStim(win, text='INCORRECT').draw()
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["vertical"]
-                training_key_response=training_key_response+["z"]
-                training_rt= training_rt+ [keyPressed[0].rt]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["vertical"]
+#                 training_key_response=training_key_response+["z"]
+#                 training_rt= training_rt+ [keyPressed[0].rt]
 
-                core.wait(1)
+#                 core.wait(1)
 
-            elif keyPressed[0].name == "m":
-                print(keyPressed[0].name)
-                message = visual.TextStim(win, text='CORRECT').draw()
-                corr_resp_training=corr_resp_training+1
-                win.flip()
+#             elif keyPressed[0].name == "m":
+#                 print(keyPressed[0].name)
+#                 message = visual.TextStim(win, text='CORRECT').draw()
+#                 corr_resp_training=corr_resp_training+1
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["vertical"]
-                training_key_response=training_key_response+["m"]
-                training_rt= training_rt+ [keyPressed[0].rt]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["vertical"]
+#                 training_key_response=training_key_response+["m"]
+#                 training_rt= training_rt+ [keyPressed[0].rt]
 
-                core.wait(1)
+#                 core.wait(1)
 
-            else:
-                print(keyPressed[0].name)
-                message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
-                win.flip()
+#             else:
+#                 print(keyPressed[0].name)
+#                 message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["vertical"]
-                training_key_response=training_key_response+["other"]
-                training_rt= training_rt+ [keyPressed[0].rt]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["vertical"]
+#                 training_key_response=training_key_response+["other"]
+#                 training_rt= training_rt+ [keyPressed[0].rt]
 
-                core.wait(1)
+#                 core.wait(1)
 
 
-        if training_phase[trial_no]=="horizontal":
+#         if training_phase[trial_no]=="horizontal":
 
-            fixation.draw()
-            win.flip()
-            core.wait(1)
+#             fixation.draw()
+#             win.flip()
+#             core.wait(1)
 
-            duration = 2 # seconds
+#             duration = 2 # seconds
 
-            kb.getKeys()
-            kb.clock.reset()
+#             kb.getKeys()
+#             kb.clock.reset()
 
-            for i in list(range(0,duration)):
+#             for i in list(range(0,duration)):
 
 
-                # 1 second
-                for i in list(range(0,freq)):
+#                 # 1 second
+#                 for i in list(range(0,freq)):
 
-                    for i in list(range(1,4,2)):
-                        stimuli[i].draw()
-                    win.flip()
-                    core.wait((1/freq)/2)
+#                     for i in list(range(1,4,2)):
+#                         stimuli[i].draw()
+#                     win.flip()
+#                     core.wait((1/freq)/2)
 
 
-                    for i in list(range(0,3,2)):
+#                     for i in list(range(0,3,2)):
 
-                        stimuli[i].draw()
-                    win.flip()
-                    core.wait((1/freq)/2)
+#                         stimuli[i].draw()
+#                     win.flip()
+#                     core.wait((1/freq)/2)
 
-            keyPressed = kb.getKeys()
+#             keyPressed = kb.getKeys()
 
-            if keyPressed == []:
-                print('no response')
-                message = visual.TextStim(win, text='NO RESPONSE').draw()
-                win.flip()
+#             if keyPressed == []:
+#                 print('no response')
+#                 message = visual.TextStim(win, text='NO RESPONSE').draw()
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["horizontal"]
-                training_key_response=training_key_response+["no response"]
-                training_rt= training_rt+ ["N/A"]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["horizontal"]
+#                 training_key_response=training_key_response+["no response"]
+#                 training_rt= training_rt+ ["N/A"]
 
-                core.wait(1)
-            elif keyPressed[0].name == "z":
-                print(keyPressed[0].name)
-                message = visual.TextStim(win, text='CORRECT').draw()
-                corr_resp_training=corr_resp_training+1
-                win.flip()
+#                 core.wait(1)
+#             elif keyPressed[0].name == "z":
+#                 print(keyPressed[0].name)
+#                 message = visual.TextStim(win, text='CORRECT').draw()
+#                 corr_resp_training=corr_resp_training+1
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["horizontal"]
-                training_key_response=training_key_response+["z"]
-                training_rt= training_rt+ [keyPressed[0].rt]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["horizontal"]
+#                 training_key_response=training_key_response+["z"]
+#                 training_rt= training_rt+ [keyPressed[0].rt]
 
-                core.wait(1)
+#                 core.wait(1)
 
-            elif keyPressed[0].name == "m":
-                print(keyPressed[0].name)
-                message = visual.TextStim(win, text='INCORRECT').draw()
-                win.flip()
+#             elif keyPressed[0].name == "m":
+#                 print(keyPressed[0].name)
+#                 message = visual.TextStim(win, text='INCORRECT').draw()
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["horizontal"]
-                training_key_response=training_key_response+["m"]
-                training_rt= training_rt+ [keyPressed[0].rt]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["horizontal"]
+#                 training_key_response=training_key_response+["m"]
+#                 training_rt= training_rt+ [keyPressed[0].rt]
 
-                core.wait(1)
+#                 core.wait(1)
 
-            else:
-                print(keyPressed[0].name)
-                message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
-                win.flip()
+#             else:
+#                 print(keyPressed[0].name)
+#                 message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
+#                 win.flip()
 
-                training_block_no=training_block_no+[training_block+1]
-                training_trial_no=training_trial_no+[trial_no+1]
-                training_motion_type=training_motion_type+["horizontal"]
-                training_key_response=training_key_response+["other"]
-                training_rt= training_rt+ [keyPressed[0].rt]
+#                 training_block_no=training_block_no+[training_block+1]
+#                 training_trial_no=training_trial_no+[trial_no+1]
+#                 training_motion_type=training_motion_type+["horizontal"]
+#                 training_key_response=training_key_response+["other"]
+#                 training_rt= training_rt+ [keyPressed[0].rt]
 
-                core.wait(1)
+#                 core.wait(1)
 
-    accuracy_training = corr_resp_training/n_trials_training
-    training_block=training_block+1
-    corr_resp_training=0
+#     accuracy_training = corr_resp_training/n_trials_training
+#     training_block=training_block+1
+#     corr_resp_training=0
 
 
-# save data from training phase
-df = pd.DataFrame({'block': training_block_no, 'trial': training_trial_no, 'motion_type': training_motion_type, 'key_response': training_key_response, 'RT': training_rt})
-training_full_file_path = training_folder_path + '/' + training_file_name
-df.to_csv(training_full_file_path, index=False)
-print(f"Data saved to '{training_full_file_path}'")
+# # save data from training phase
+# df = pd.DataFrame({'block': training_block_no, 'trial': training_trial_no, 'motion_type': training_motion_type, 'key_response': training_key_response, 'RT': training_rt})
+# training_full_file_path = training_folder_path + '/' + training_file_name
+# df.to_csv(training_full_file_path, index=False)
+# print(f"Data saved to '{training_full_file_path}'")
 
-while True:
-    message = visual.TextStim(win, text='Training phase has been succesfully completed. \n "space" to continue').draw()
-    #message.autoDraw = True  # Automatically draw every frame
-    win.flip()
-    keyPressed = kb.waitKeys()
-    if keyPressed == ["space"]:
-        break
+# while True:
+#     message = visual.TextStim(win, text='Training phase has been succesfully completed. \n "space" to continue').draw()
+#     #message.autoDraw = True  # Automatically draw every frame
+#     win.flip()
+#     keyPressed = kb.waitKeys()
+#     if keyPressed == ["space"]:
+#         break
 
-win.close()
-core.quit()
+# win.close()
+# core.quit()
 
 
 
@@ -374,10 +375,10 @@ core.quit()
 #         break
     
 
-# # ADD MULTIPLIER 
-# multiplier=1.5
+# # ADD scaler 
+# scaler=1
 # # MQ parameters
-# stimulus_size = 10*multiplier
+# stimulus_size = 10*scaler
 # freq = 2 # 1 cycle/freq is when all the quartets have been shown.
 # # height=100
 # # width=200
@@ -385,17 +386,17 @@ core.quit()
 
 
 # width_val = []
-# current_value = 17.5*multiplier
+# current_value = 17.5*scaler
 
 # # Add values in the increasing phase
-# while current_value <= 90*multiplier:
+# while current_value <= 90*scaler:
 #     width_val.append(current_value)
-#     current_value += 3*multiplier
+#     current_value += 3*scaler
 
 # # Subtract values in the decreasing phase
-# while current_value >= 17.5*multiplier:
+# while current_value >= 17.5*scaler:
 #     width_val.append(current_value)
-#     current_value -= 3*multiplier
+#     current_value -= 3*scaler
 # # Now, 'values' contains the desired array
 # print(width_val)
 
@@ -404,17 +405,17 @@ core.quit()
 
 
 # height_val = []
-# current_value = 17.5*multiplier
+# current_value = 17.5*scaler
 
 # # Add values in the increasing phase
-# while current_value <= 90*multiplier:
+# while current_value <= 90*scaler:
 #     height_val.append(current_value)
-#     current_value += 3*multiplier
+#     current_value += 3*scaler
 
 # # Subtract values in the decreasing phase
-# while current_value >= 17.5*multiplier:
+# while current_value >= 17.5*scaler:
 #     height_val.append(current_value)
-#     current_value -= 3*multiplier
+#     current_value -= 3*scaler
 
 # # Now, 'values' contains the desired array
 # print(height_val)
@@ -444,7 +445,7 @@ core.quit()
 #         idx_counter=0
 #         for width in width_val:
 #             print(width)
-#             height=(360/width)*multiplier
+#             height=(360/width)*scaler
             
 #             idx_counter += 1
             
@@ -456,7 +457,7 @@ core.quit()
 #             stimuli = [upper_left, upper_right, lower_right, lower_left]
                 
 #             if idx_counter <= max_idx_width:
-#                 message = visual.TextStim(win, text='extending horizontally', pos=[0, -0.2])
+#                 message = visual.TextStim(win, text='extending horizontally', pos=[0, -60])
 #                 message.autoDraw = True  # Automatically draw every frame
                 
 #                 duration = 1 # seconds
@@ -478,7 +479,7 @@ core.quit()
 #                 message.autoDraw = False   
                     
 #             elif idx_counter> max_idx_width:
-#                 message = visual.TextStim(win, text='shrinking horizontally', pos=[0, -0.2])
+#                 message = visual.TextStim(win, text='shrinking horizontally', pos=[0, -60])
 #                 message.autoDraw = True  # Automatically draw every frame
                 
 #                 duration = 1 # seconds
@@ -510,7 +511,7 @@ core.quit()
 #         idx_counter=0
 #         for height in height_val:
 #             print(height)
-#             width=(360/height)*multiplier
+#             width=(360/height)*scaler
             
 #             idx_counter += 1
             
@@ -523,7 +524,7 @@ core.quit()
             
             
 #             if idx_counter <= max_idx_height:
-#                 message = visual.TextStim(win, text='extending vertically', pos=[0, -0.5])
+#                 message = visual.TextStim(win, text='extending vertically', pos=[0, -120])
 #                 message.autoDraw = True  # Automatically draw every frame
                 
 #                 duration =  1 # seconds
@@ -547,7 +548,7 @@ core.quit()
         
         
 #             elif idx_counter > max_idx_height:
-#                 message = visual.TextStim(win, text='shrinking vertically', pos=[0, -0.5])
+#                 message = visual.TextStim(win, text='shrinking vertically', pos=[0, -120])
 #                 message.autoDraw = True  # Automatically draw every frame
                 
 #                 duration =  1 # seconds
@@ -632,7 +633,7 @@ core.quit()
 # for block in range(1, block_number_experiment+1):
 
 #     for trial in range(1, trial_number_experiment+1):
-#         scaler = 1.5
+#         scaler = 1
 
 #         width_val = []
 #         result = math.sqrt(360)
@@ -689,11 +690,6 @@ core.quit()
 #         # # Now, 'values' contains the desired array
 #         # print(height_val)
 
-#         message = visual.TextStim(win, text='Wait')
-#         message.autoDraw = True  # Automatically draw every frame
-#         win.flip()
-#         core.wait(3.0)
-#         message.autoDraw = False
 
 #         color_quartets = [0.9, 0.9, 0.9]
 
