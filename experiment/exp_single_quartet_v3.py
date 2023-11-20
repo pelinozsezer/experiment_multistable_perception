@@ -365,248 +365,252 @@ message.autoDraw = False
 
 
 
-# ## DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM ##
-# while True:
-#     message = visual.TextStim(win, text='DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM. \n "space" for continue').draw()
-#     #message.autoDraw = True  # Automatically draw every frame
-#     win.flip()
-#     keyPressed = kb.waitKeys()
-#     if keyPressed == ["space"]:
-#         break
+## DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM ##
+while True:
+    message = visual.TextStim(win, text='DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM. \n "space" for continue').draw()
+    #message.autoDraw = True  # Automatically draw every frame
+    win.flip()
+    keyPressed = kb.waitKeys()
+    if keyPressed == ["space"]:
+        break
     
 
-# # ADD scaler 
-# scaler=1
-# # MQ parameters
-# stimulus_size = 10*scaler
-# freq = 2 # 1 cycle/freq is when all the quartets have been shown.
-# # height=100
-# # width=200
+# ADD scaler 
+scaler=1
+# MQ parameters
+stimulus_size = 10*scaler
+freq = 2 # 1 cycle/freq is when all the quartets have been shown.
+# height=100
+# width=200
 
 
 
-# width_val = []
-# current_value = 17.5*scaler
+width_val = []
+current_value = 17.5*scaler
 
-# # Add values in the increasing phase
-# while current_value <= 90*scaler:
-#     width_val.append(current_value)
-#     current_value += 3*scaler
+# Add values in the increasing phase
+while current_value <= 90*scaler:
+    width_val.append(current_value)
+    current_value += 3*scaler
 
-# # Subtract values in the decreasing phase
-# while current_value >= 17.5*scaler:
-#     width_val.append(current_value)
-#     current_value -= 3*scaler
-# # Now, 'values' contains the desired array
-# print(width_val)
+# Subtract values in the decreasing phase
+while current_value >= 17.5*scaler:
+    width_val.append(current_value)
+    current_value -= 3*scaler
+# Now, 'values' contains the desired array
+print(width_val)
 
-# max_idx_width = width_val.index(max(width_val))
-
-
-
-# height_val = []
-# current_value = 17.5*scaler
-
-# # Add values in the increasing phase
-# while current_value <= 90*scaler:
-#     height_val.append(current_value)
-#     current_value += 3*scaler
-
-# # Subtract values in the decreasing phase
-# while current_value >= 17.5*scaler:
-#     height_val.append(current_value)
-#     current_value -= 3*scaler
-
-# # Now, 'values' contains the desired array
-# print(height_val)
-
-# max_idx_height = height_val.index(max(height_val))
+max_idx_width = width_val.index(max(width_val))
 
 
 
-# #def draw_motquarts(stimulus_size, freq, height, width):
+height_val = []
+current_value = 17.5*scaler
+
+# Add values in the increasing phase
+while current_value <= 90*scaler:
+    height_val.append(current_value)
+    current_value += 3*scaler
+
+# Subtract values in the decreasing phase
+while current_value >= 17.5*scaler:
+    height_val.append(current_value)
+    current_value -= 3*scaler
+
+# Now, 'values' contains the desired array
+print(height_val)
+
+max_idx_height = height_val.index(max(height_val))
 
 
 
-# message = visual.TextStim(win, text='Stimuli during the experimental phase - 2 trials')
-# message.autoDraw = True  # Automatically draw every frame
-# win.flip()
-# core.wait(3.0)
-# message.autoDraw = False
-
-# color_quartets=[0.9, 0.9, 0.9]
+#def draw_motquarts(stimulus_size, freq, height, width):
 
 
-# flag_demonstration = True
-# while flag_demonstration:
+
+message = visual.TextStim(win, text='Stimuli during the experimental phase - 2 trials')
+message.autoDraw = True  # Automatically draw every frame
+win.flip()
+core.wait(3.0)
+message.autoDraw = False
+
+color_quartets=[0.9, 0.9, 0.9]
+
+
+flag_demonstration = True
+while flag_demonstration:
     
-#     for iteration in [1]:
+    for iteration in [1]:
         
-#         idx_counter=0
-#         for width in width_val:
-#             print(width)
-#             height=(360/width)*scaler
+        idx_counter=0
+        for width in width_val:
+            print(width)
+            height=(360/width)*scaler
             
-#             idx_counter += 1
+            idx_counter += 1
             
-#             # prepare stimuli
-#             upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-#             upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-#             lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-#             lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
-#             stimuli = [upper_left, upper_right, lower_right, lower_left]
+            # prepare stimuli
+            upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            stimuli = [upper_left, upper_right, lower_right, lower_left]
                 
-#             if idx_counter <= max_idx_width:
-#                 message = visual.TextStim(win, text='extending horizontally', pos=[0, -60])
-#                 message.autoDraw = True  # Automatically draw every frame
+            if idx_counter <= max_idx_width:
+                message = visual.TextStim(win, text='extending horizontally', pos=[0, -60])
+                message.autoDraw = True  # Automatically draw every frame
                 
-#                 duration = 1 # seconds
-#                 for i in list(range(0,duration)):
+                duration = 1 # seconds
+                for i in list(range(0,duration)):
                 
-#                     # 1 second
-#                     for i in list(range(0,freq)):
+                    # 1 second
+                    for i in list(range(0,freq)):
                     
-#                         for i in list(range(0,3,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
                         
-#                         for i in list(range(1,4,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)  
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
                  
-#                 message.autoDraw = False   
+                message.autoDraw = False   
                     
-#             elif idx_counter> max_idx_width:
-#                 message = visual.TextStim(win, text='shrinking horizontally', pos=[0, -60])
-#                 message.autoDraw = True  # Automatically draw every frame
+            elif idx_counter> max_idx_width:
+                message = visual.TextStim(win, text='shrinking horizontally', pos=[0, -60])
+                message.autoDraw = True  # Automatically draw every frame
                 
-#                 duration = 1 # seconds
-#                 for i in list(range(0,duration)):
+                duration = 1 # seconds
+                for i in list(range(0,duration)):
                 
-#                     # 1 second
-#                     for i in list(range(0,freq)):
+                    # 1 second
+                    for i in list(range(0,freq)):
                     
-#                         for i in list(range(0,3,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
                         
-#                         for i in list(range(1,4,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)  
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
                         
-#                 message.autoDraw = False   
+                message.autoDraw = False   
                  
-#             # if len(kb.getKeys()) > 0: # if a key is pressed
-#             #     print('KEYYYYYYYY')
-#             #     # thisKey = kb.getKeys()
-#             #     # print(thisKey)
-#             #     break
-#         event.clearEvents()
+            # if len(kb.getKeys()) > 0: # if a key is pressed
+            #     print('KEYYYYYYYY')
+            #     # thisKey = kb.getKeys()
+            #     # print(thisKey)
+            #     break
+        event.clearEvents()
         
         
-#         idx_counter=0
-#         for height in height_val:
-#             print(height)
-#             width=(360/height)*scaler
+        idx_counter=0
+        for height in height_val:
+            print(height)
+            width=(360/height)*scaler
             
-#             idx_counter += 1
+            idx_counter += 1
             
-#             # prepare stimuli
-#             upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[11, 1, 1])
-#             upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
-#             lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
-#             lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
-#             stimuli = [upper_left, upper_right, lower_right, lower_left]
+            # prepare stimuli
+            upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[11, 1, 1])
+            upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+            lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+            lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+            stimuli = [upper_left, upper_right, lower_right, lower_left]
             
             
-#             if idx_counter <= max_idx_height:
-#                 message = visual.TextStim(win, text='extending vertically', pos=[0, -120])
-#                 message.autoDraw = True  # Automatically draw every frame
+            if idx_counter <= max_idx_height:
+                message = visual.TextStim(win, text='extending vertically', pos=[0, -120])
+                message.autoDraw = True  # Automatically draw every frame
                 
-#                 duration =  1 # seconds
-#                 for i in list(range(0,duration)):
+                duration =  1 # seconds
+                for i in list(range(0,duration)):
                 
-#                     # 1 second
-#                     for i in list(range(0,freq)):
+                    # 1 second
+                    for i in list(range(0,freq)):
                     
-#                         for i in list(range(0,3,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
                         
-#                         for i in list(range(1,4,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)  
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
                
                         
-#                 message.autoDraw = False   
+                message.autoDraw = False   
         
         
-#             elif idx_counter > max_idx_height:
-#                 message = visual.TextStim(win, text='shrinking vertically', pos=[0, -120])
-#                 message.autoDraw = True  # Automatically draw every frame
+            elif idx_counter > max_idx_height:
+                message = visual.TextStim(win, text='shrinking vertically', pos=[0, -120])
+                message.autoDraw = True  # Automatically draw every frame
                 
-#                 duration =  1 # seconds
-#                 for i in list(range(0,duration)):
+                duration =  1 # seconds
+                for i in list(range(0,duration)):
                 
-#                     # 1 second
-#                     for i in list(range(0,freq)):
+                    # 1 second
+                    for i in list(range(0,freq)):
                     
-#                         for i in list(range(0,3,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
                         
-#                         for i in list(range(1,4,2)):
-#                             stimuli[i].draw()
-#                         win.flip()
-#                         core.wait((1/freq)/2)  
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
                         
                         
                         
-#                 message.autoDraw = False   
+                message.autoDraw = False   
                  
-#             # if len(kb.getKeys()) > 0: # if a key is pressed
-#             #     print('KEYYYYYYYY')
-#             #     # thisKey = kb.getKeys()
-#             #     # print(thisKey)
-#             #     break
-#         event.clearEvents()
+            # if len(kb.getKeys()) > 0: # if a key is pressed
+            #     print('KEYYYYYYYY')
+            #     # thisKey = kb.getKeys()
+            #     # print(thisKey)
+            #     break
+        event.clearEvents()
         
         
         
-#     message = visual.TextStim(win, text='End of demonstration')
-#     message.autoDraw = True  # Automatically draw every frame
-#     win.flip()
-#     core.wait(2.0)
-#     message.autoDraw = False  # Automatically draw every frame
+    message = visual.TextStim(win, text='End of demonstration')
+    message.autoDraw = True  # Automatically draw every frame
+    win.flip()
+    core.wait(2.0)
+    message.autoDraw = False  # Automatically draw every frame
 
 
     
 
-#     # ask participants if they want more
-#     while True:
-#         message = visual.TextStim(win, text='Would you like more demonstration? \n press y for yes \n press n for no').draw()
-#         #message.autoDraw = True  # Automatically draw every frame
-#         win.flip()
-#         keyPressed = kb.waitKeys()
-#         if keyPressed == ["y"]:
-#             flag_demonstration = True
-#             break
-#         elif keyPressed == ["n"]:
-#             message = visual.TextStim(win, text='continueing to the experimental phase')#.draw()
-#             message.autoDraw = True  # Automatically draw every frame
-#             win.flip()
-#             core.wait(5.0)
-#             message.autoDraw = False  # Automatically draw every frame
+    # ask participants if they want more
+    while True:
+        message = visual.TextStim(win, text='Would you like more demonstration? \n press y for yes \n press n for no').draw()
+        #message.autoDraw = True  # Automatically draw every frame
+        win.flip()
+        keyPressed = kb.waitKeys()
+        if keyPressed == ["y"]:
+            flag_demonstration = True
+            break
+        elif keyPressed == ["n"]:
+            message = visual.TextStim(win, text='continueing to the experimental phase')#.draw()
+            message.autoDraw = True  # Automatically draw every frame
+            win.flip()
+            core.wait(5.0)
+            message.autoDraw = False  # Automatically draw every frame
             
-#             flag_demonstration = False
-#             break
+            flag_demonstration = False
+            break
+
+
+
+
 
 
 
