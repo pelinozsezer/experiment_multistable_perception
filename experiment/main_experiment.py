@@ -45,15 +45,157 @@ freq = 2  # 1 cycle or freq is when all the quartets have been shown.
 
 ### EXPERIMENTAL PHASE ###
 
-experimental_values = range(10,110,10)
-dynamical_experimental_values = []
-hxw=experimental_values[-1]
+# fixation cross
+fixation = visual.ShapeStim(win,
+                            vertices=((0, -0.05), (0, 0.05), (0, 0),
+                                      (-0.05, 0), (0.05, 0)),
+                            lineWidth=75,
+                            closeShape=False,
+                            lineColor="white"
+                            )
 
-# HORIZONTAL LOOP
-flag_exit_width=0
-flag_trial=0
+experimental_values = list(range(10,110,10))
+max_index = experimental_values.index(max(experimental_values))
+dynamical_experimental_values = experimental_values
+hxw=float(experimental_values[-1])
 
-block
-trial 
- 4 while :
+
+
+# 1 cycle - trial: extending-shrinking square first horizontally, then vertically
+for block in range(1, block_number_experiment+1):
     
+    fixation.draw()
+    win.flip()
+    core.wait(2)
+    
+
+    for trial in range(1, trial_number_experiment+1):
+        
+        
+        # EXTENDING HORIZONTALLY
+        flag_change=0
+        idx=0
+        while flag_change==0:
+            
+            idx =+ 1
+            width=dynamical_experimental_values[idx]
+            height = (hxw/width)  # *scaler
+            
+            # prepare stimuli
+            upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            stimuli = [upper_left, upper_right, lower_right, lower_left]
+            
+            
+            duration = 1  # seconds
+            for i in list(range(0, duration)):
+
+                # 1 second
+                for i in list(range(0, freq)):
+
+                    for i in list(range(0, 3, 2)):
+                        stimuli[i].draw()
+                    win.flip()
+                    core.wait((1/freq)/2)
+
+                    for i in list(range(1, 4, 2)):
+                        stimuli[i].draw()
+                    win.flip()
+                    core.wait((1/freq)/2)
+                
+                
+            # if the last two keys are thg eame # break 
+            #     break
+            # if max_index==9: # if max boundary is reached, wait for key response - z or m
+            #     break
+      
+            
+      
+        
+        dynamical_experimental_values = dynamical_experimental_values[:idx]
+        dynamical_experimental_values.reverse()
+        
+        
+      
+        
+        # SHRINKING HORIZONTALLY
+        flag_change==0
+        idx=0
+        while flag_change==0:    
+            
+            idx =+ 1
+            width=dynamical_experimental_values[idx]
+            height = (hxw/width)  # *scaler
+            
+            # prepare stimuli
+            upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+            stimuli = [upper_left, upper_right, lower_right, lower_left]
+            
+            
+            duration = 1  # seconds
+            for i in list(range(0, duration)):
+
+                # 1 second
+                for i in list(range(0, freq)):
+
+                    for i in list(range(0, 3, 2)):
+                        stimuli[i].draw()
+                    win.flip()
+                    core.wait((1/freq)/2)
+
+                    for i in list(range(1, 4, 2)):
+                        stimuli[i].draw()
+                    win.flip()
+                    core.wait((1/freq)/2)
+                
+            
+            # if the last two keys are thg eame # break 
+            #     break
+            # if max_index==dynamical_experimental_values[-1]: # no key response expected here
+            #     break
+            
+        
+        current_val=dynamical_experimental_values[idx]
+        index = experimental_values.index(current_val)
+        dynamical_experimental_values = experimental_values[index:]
+        
+        
+        # transition from width value to height value??
+        # EXTENDING VERTICALLY
+        flag_change==0
+        idx=0
+        while flag_change==0:  
+                
+        # SHRINKING VERTICALLY
+        flag_change==0
+        idx=0
+        while flag_change==0:  
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
