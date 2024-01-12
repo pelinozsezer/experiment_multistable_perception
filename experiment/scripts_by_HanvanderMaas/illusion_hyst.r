@@ -2,7 +2,7 @@
 # This code is to create motion quartet stimuli
 # in which the aspect ratio changes
 
-setwd("/Users/pelinozsezer/EXP1_MP/experiment/scripts_by_HanvanderMaas")
+setwd("/Users/pelinozsezer/Desktop/EXP1_MP/experiment/scripts_by_HanvanderMaas")
 getwd()
 
 # set working directory to source file location
