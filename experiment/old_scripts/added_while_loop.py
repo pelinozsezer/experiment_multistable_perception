@@ -34,7 +34,7 @@ keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 scaler = 1
 
 block_number_experiment = 1
-trial_number_experiment = 10
+trial_number_experiment = 10 # redefine based on participants' responses
 
 # MQ parameters
 stimulus_size =  10*scaler

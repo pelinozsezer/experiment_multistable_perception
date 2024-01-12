@@ -188,7 +188,7 @@ for block in range(1, block_number_experiment+1):
         kb.getKeys()
 
         ## full loop
-        width_index = 0
+        width_index = round(len(width_val)/2)
         forward = True
         while True: #Temporary fix for infinite loop
             width = width_val[width_index]

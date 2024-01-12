@@ -20,8 +20,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
-import functions as func
-from functions import training_phase, demonstraion_phase
+# import definitions_EXP_M1 as def_exp
+from definitions_EXP_M1 import training_phase, demonstration_phase, experiment_phase
 
 from psychopy import gui, core, visual, event
 from psychopy.gui import DlgFromDict
@@ -88,7 +88,7 @@ message.autoDraw = False
 
 ### CALL ###
 training_phase(n_trials_training)
-demonstraion_phase(n_trials_demonstration)
+demonstration_phase(n_trials_demonstration)
 # experiment_phase()
 
 
