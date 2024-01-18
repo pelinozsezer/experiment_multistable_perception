@@ -224,7 +224,7 @@ for block in range(1, block_number_experiment+1):
 
             if width_index == 0:
             	forward = True
-            elif width_index == len(width_val):
+            elif width_index == len(width_val): # if there is key response
             	forward = False
 
             if forward:
