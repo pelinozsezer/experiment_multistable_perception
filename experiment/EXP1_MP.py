@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jan 12 09:57:44 2024
-
-@author: pelinozsezer
-"""
 
 # Written by Pelin Ozsezer
 
@@ -21,6 +14,8 @@ import matplotlib.pyplot as plt
 import math
 
 # import definitions_EXP_M1 as def_exp
+os.chdir('/Users/pelinozsezer/Desktop/EXP1_MP/experiment')
+import definitions_EXP_M1
 from definitions_EXP_M1 import training_phase, demonstration_phase, experiment_phase
 
 from psychopy import gui, core, visual, event
@@ -29,7 +24,6 @@ from psychopy.core import Clock, quit, wait
 from psychopy.visual import Window
 from psychopy.event import Mouse
 from psychopy.hardware import keyboard
-
 
 
 ### PARAMETERS & VARIABLES ###

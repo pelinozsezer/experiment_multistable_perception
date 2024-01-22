@@ -4,7 +4,7 @@
 
 
 ### TRAINING PHASE ###
-def training_phase(nx_trials_training):
+def training_phase(nx_trials_training, scaler):
     # 20 trials - z=horizontal & m=vertical
     
     corr_resp_training = 0
@@ -300,7 +300,7 @@ def training_phase(nx_trials_training):
 
 ## DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM ##
 
-def demonstration_phase(nx_trials_demonstration):
+def demonstration_phase(nx_trials_demonstration, scaler):
     while True:
         message = visual.TextStim(win, text='DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM. \n "space" for continue.').draw()
         #message.autoDraw = True  # Automatically draw every frame

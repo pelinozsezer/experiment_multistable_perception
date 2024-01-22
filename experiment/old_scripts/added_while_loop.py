@@ -55,8 +55,12 @@ fixation = visual.ShapeStim(win,
                             )
 
 experimental_values = list(range(1,101,1))
+max_index = np.argmax(experimental_values)
+min_index = np.argmin(experimental_values)
 hxw=float(experimental_values[-1])
 
+keyPressed_1back=[]
+keyPressed_2back=[]
 
 
 
@@ -75,12 +79,12 @@ for block in range(1, block_number_experiment+1):
         width_val = experimental_values
         height_val = [hxw / x for x in width_val]
         flag_change=0 # to exit from horizontal
-        idx=10
-        while flag_change==0:
+        idx=9
+        while flag_change==0: # should be 1 when there are two different key responses
             
            # idx =+ 1
-            width=dynamical_experimental_values[idx]
-            height = (hxw/width)  # *scaler
+           width= width_val(idx)
+           height= height_val(idx)
             
             # prepare stimuli
             upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
@@ -93,30 +97,124 @@ for block in range(1, block_number_experiment+1):
                 stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
             stimuli = [upper_left, upper_right, lower_right, lower_left]
             
+            response = kb.getKeys(keyList = ['z', 'm'])
             
             duration = 1  # seconds
             for i in list(range(0, duration)):
-
+    
                 # 1 second
                 for i in list(range(0, freq)):
-
+    
                     for i in list(range(0, 3, 2)):
                         stimuli[i].draw()
                     win.flip()
                     core.wait((1/freq)/2)
-
+    
                     for i in list(range(1, 4, 2)):
                         stimuli[i].draw()
                     win.flip()
                     core.wait((1/freq)/2)
-                
-                
-            # if the last two keys are thg eame # break 
-            #     break
-            # if max_index==9: # if max boundary is reached, wait for key response - z or m
-            #     break
-      
             
+            
+            if (keyPressed_1back!=[] & keyPressed_2back!=[]) & (keyPressed_1back!=keyPressed_2back!)
+                break
+            if max_index # if max boundary is reached, wait for key response - m: vertical
+            
+                while idx==max_index:
+                    
+                    width= width_val(idx)
+                    height= height_val(idx)
+                     
+                     # prepare stimuli
+                     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                         width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                         stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                         width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                         stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     stimuli = [upper_left, upper_right, lower_right, lower_left]
+                     
+                     
+                     duration = 1  # seconds
+                     for i in list(range(0, duration)):
+             
+                         # 1 second
+                         for i in list(range(0, freq)):
+             
+                             for i in list(range(0, 3, 2)):
+                                 stimuli[i].draw()
+                             win.flip()
+                             core.wait((1/freq)/2)
+             
+                             for i in list(range(1, 4, 2)):
+                                 stimuli[i].draw()
+                             win.flip()
+                             core.wait((1/freq)/2)
+                             
+                             
+                     if keyPressed = ['m']:
+                         # record keys
+                         break
+                     
+                        
+            if idx==min_index: # if min boundary is reached, wait for key response - z: vertical
+                width= width_val(idx)
+                height= height_val(idx)
+                 
+                 # prepare stimuli
+                 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                     width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                     stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                     width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                     stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 stimuli = [upper_left, upper_right, lower_right, lower_left]
+                 
+                 
+                 duration = 1  # seconds
+                 for i in list(range(0, duration)):
+         
+                     # 1 second
+                     for i in list(range(0, freq)):
+         
+                         for i in list(range(0, 3, 2)):
+                             stimuli[i].draw()
+                         win.flip()
+                         core.wait((1/freq)/2)
+         
+                         for i in list(range(1, 4, 2)):
+                             stimuli[i].draw()
+                         win.flip()
+                         core.wait((1/freq)/2)
+                         
+                         
+                 if keyPressed = ['m']:
+                     # record keys
+                     break
+           
+       
+           
+       
+           
+            
+        # VERTICALLY EXPANDING & SHRINKING
+        height_val = experimental_values
+        width_val = [hxw / x for x in height_val]
+        flag_change=0 # to exit from horizontal
+        idx=9
+        while flag_change==0: # should be 1 when there are two different key responses
+      
+      
+
+
+
+      
+
+################
       
         
         dynamical_experimental_values = dynamical_experimental_values[:idx]
