@@ -134,21 +134,21 @@ for block in range(1, block_number_experiment+1):
                width= width_val(idx)
                height= height_val(idx)
                 
-                # prepare stimuli
-                upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+               # prepare stimuli
+               upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
                     width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+               upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
                     stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+               lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
                     width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+               lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
                     stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                stimuli = [upper_left, upper_right, lower_right, lower_left]
+               stimuli = [upper_left, upper_right, lower_right, lower_left]
                 
-                response = kb.getKeys(keyList = ['z', 'm'])
+               response = kb.getKeys(keyList = ['z', 'm'])
                 
-                duration = 1  # seconds
-                for i in list(range(0, duration)):
+               duration = 1  # seconds
+               for i in list(range(0, duration)):
         
                     # 1 second
                     for i in list(range(0, freq)):
@@ -164,7 +164,7 @@ for block in range(1, block_number_experiment+1):
                         core.wait((1/freq)/2)
                 
                 
-                if len(response)>0: # keyPressed_last == response[-1].name
+            if len(response)>0: # keyPressed_last == response[-1].name
                     keyPressed_1back = keyPressed_last
                     keyPressed_last = response[-1].name
                  
@@ -183,21 +183,21 @@ for block in range(1, block_number_experiment+1):
                     width= width_val(idx)
                     height= height_val(idx)
                      
-                     # prepare stimuli
-                     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                    # prepare stimuli
+                    upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
                          width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                    upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
                          stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                    lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
                          width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                    lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
                          stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     stimuli = [upper_left, upper_right, lower_right, lower_left]
+                    stimuli = [upper_left, upper_right, lower_right, lower_left]
                      
 
                      
-                     duration = 1  # seconds
-                     for i in list(range(0, duration)):
+                    duration = 1  # seconds
+                    for i in list(range(0, duration)):
              
                          # 1 second
                          for i in list(range(0, freq)):
@@ -218,7 +218,7 @@ for block in range(1, block_number_experiment+1):
                              
                              
                  
-                if max_index # if max boundary is reached, wait for key response - m: vertical
+              if max_index # if max boundary is reached, wait for key response - m: vertical
                 
                     while idx==max_index:
                         
@@ -259,6 +259,7 @@ for block in range(1, block_number_experiment+1):
                              keyPressed_1back = keyPressed_last
                              keyPressed_last = response[-1].name
 
+                            #if they are diff 
                              forward = False 
 
                          
@@ -278,7 +279,7 @@ for block in range(1, block_number_experiment+1):
                          stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
                      stimuli = [upper_left, upper_right, lower_right, lower_left]
                      
-                     response = kb.getKeys(keyList = ['z', 'm'])
+                     
                      
                      duration = 1  # seconds
                      for i in list(range(0, duration)):
@@ -296,7 +297,8 @@ for block in range(1, block_number_experiment+1):
                              win.flip()
                              core.wait((1/freq)/2)
                              
-                             
+                    response = kb.getKeys(keyList = ['z', 'm'])
+                     
                     if response[-1].name == ['z']: 
                         keyPressed_1back = keyPressed_last
                         keyPressed_last = response[-1].name
@@ -313,12 +315,12 @@ for block in range(1, block_number_experiment+1):
            
        
             
-        # VERTICALLY EXPANDING & SHRINKING
-        height_val = experimental_values
-        width_val = [hxw / x for x in height_val]
-        flag_change=0 # to exit from horizontal
-        idx=9
-        while flag_change==0: # should be 1 when there are two different key responses
+        # # VERTICALLY EXPANDING & SHRINKING
+        # height_val = experimental_values
+        # width_val = [hxw / x for x in height_val]
+        # flag_change=0 # to exit from horizontal
+        # idx=9
+        # while flag_change==0: # should be 1 when there are two different key responses
       
       
 
