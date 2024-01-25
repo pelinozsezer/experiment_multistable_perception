@@ -22,7 +22,7 @@ color_quartets = [0.9, 0.9, 0.9]  # close to white
 
 # window settings
 #win = visual.Window(size=[1792, 1120], color=color_gray) #units="pix", screen = 0, fullscr=False, allowGUI=True # personal laptop
-# units="pix", screen = 0, fullscr=False, allowGUI=True # work laptop
+# screen = 0, fullscr=False, allowGUI=True # work laptop
 win = visual.Window(size=[1512, 982], color=color_gray, units="pix")
 
 # keyboard settings
