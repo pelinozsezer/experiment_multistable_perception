@@ -35,7 +35,7 @@ keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 scaler = 1
 
 block_number_experiment = 1
-cycle_number_experiment = 10 # redefine based on participants' responses
+cycle_number_experiment = 25 # redefine based on participants' responses
 
 # MQ parameters
 stimulus_size =  10*scaler
@@ -81,13 +81,14 @@ for block in range(1, block_number_experiment+1):
     
      cycle = 0
      number_keyPressed=0
+     
+     flag_change=0 # to exit 1 cycle: 2 key responses and they must be different, if not reached to the extremes (min & max)?
+     index=9
+     forward = True
 
      while  cycle < cycle_number_experiment: # trial is based on each participant's cycle==key response count=2
 
      	 # EXPANDING & SHRINKING 
-         flag_change=0 # to exit 1 cycle: 2 key responses and they must be different, if not reached to the extremes (min & max)?
-         index=9
-         forward = True
          while flag_change==0: # should be 1 when there are two different key responses
 
          	 if index==9: # the very start: square and participant has to respond. 10 (width) x 10 (height) = 100 (hxw)
@@ -186,6 +187,7 @@ for block in range(1, block_number_experiment+1):
                              keyPressed_1back = keyPressed_last
                              keyPressed_last = response[-1].name
                              forward = False 
+                             flag_change=1 #???
                              break
 
 
@@ -231,6 +233,7 @@ for block in range(1, block_number_experiment+1):
                              keyPressed_1back = keyPressed_last
                              keyPressed_last = response[-1].name
                              forward = True 
+                             flag_change=1 #???
                              break
 
 
@@ -282,9 +285,11 @@ for block in range(1, block_number_experiment+1):
                      	 	 if forward==True:
                      	 	 	 forward=False
                      	 	 	 flag_continue1more=True
+                     	 	 	 flag_change=1 #???
                  	 	 	 elif forward==False
                  	 	 	 	 forward=True
                  	 	 	 	 flag_continue1more=True
+                 	 	 	 	 flag_change=1 #???
 
                      	 else: # if the last two key presses are the same: no change of direction
                      	 	 continue # 'forward' variable will stay the same
@@ -294,7 +299,7 @@ for block in range(1, block_number_experiment+1):
 
                  	 	 if flag_continue1more: # after key response show stimuli for one more 'duration'
 
-                 	 	 	 if forward==Fals: # show forward direction one more
+                 	 	 	 if forward==False: # show forward direction one more
                  	 	 	 	 index =+ 1
 
                  	 	 	 	 width= width_val(idx)
@@ -387,9 +392,6 @@ for block in range(1, block_number_experiment+1):
 
 
 
-             	 # COUNT CYCLES
-             	 if number_keyPressed==2:
-             	 	cycle =+ 1
         
 
 
