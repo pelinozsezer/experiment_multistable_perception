@@ -84,17 +84,17 @@ for block in range(1, block_number_experiment+1):
      
      flag_change=0 # to exit 1 cycle: 2 key responses and they must be different, if not reached to the extremes (min & max)?
      index=9
-     forward = True
+     forward = []
 
      while  cycle < cycle_number_experiment: # trial is based on each participant's cycle==key response count=2
 
-     	 # EXPANDING & SHRINKING 
+         # EXPANDING & SHRINKING 
          while flag_change==0: # should be 1 when there are two different key responses
 
-         	 if index==9: # the very start: square and participant has to respond. 10 (width) x 10 (height) = 100 (hxw)
+             if index==9: # the very start: square and participant has to respond. 10 (width) x 10 (height) = 100 (hxw)
 
-         	 	 width= width_val(idx)
-                 height= height_val(idx)
+                 width= width_val[index]
+                 height= height_val[index]
                  
                  # prepare stimuli
                  upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
@@ -107,13 +107,13 @@ for block in range(1, block_number_experiment+1):
                     stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
                  stimuli = [upper_left, upper_right, lower_right, lower_left]
                 
-                 kb.getKeys(keyList = ['z', 'm']) # memory resets here!
-                 kb.clock.reset()
+                 event.getKeys(keyList = ['z', 'm']) # memory resets here!
+                 #event.clock.reset()
 
                  while 1:
                     
                      for i in list(range(0, duration)):
-            
+                         
                          # 1 second
                          for i in list(range(0, freq)):
             
@@ -127,112 +127,23 @@ for block in range(1, block_number_experiment+1):
                              win.flip()
                              core.wait((1/freq)/2)
            
-           			 response = kb.getKeys(keyList = ['z', 'm'])
+                     response = event.getKeys(keyList = ['z', 'm'])
+                     
+                     if len(response)>0:
+                         print('keyyyyy')
+                         print(response)
 
-                     if response[-1].name == ['z']: # horizontal - LR
-                     	 forward = True
-                         keyPressed_last = response[-1].name         
-                         break
-
-                     elif response[-1].name == ['m']: # vertical - UD
-                     	 forward = False
-                     	 keyPressed_last = response[-1].name         
-                         break
-
-
-
-
-
-
-
-         	 	 ## CHECK FOR EXTREME BOUNDARIES
-             	 elif index == max_index # if max boundary is reached, wait for key response - m: vertical
-           			 while 1:
-
-                         width= width_val(idx)
-                         height= height_val(idx)
-                         
-                         # prepare stimuli
-                         upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                             width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                             stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                             width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                             stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         stimuli = [upper_left, upper_right, lower_right, lower_left]
-                         
-                         kb.getKeys(keyList = ['z', 'm'])
-                         
-                         duration = 1  # seconds
-                         for i in list(range(0, duration)):
-                 
-                             # 1 second
-                             for i in list(range(0, freq)):
-                 
-                                 for i in list(range(0, 3, 2)):
-                                     stimuli[i].draw()
-                                 win.flip()
-                                 core.wait((1/freq)/2)
-                 
-                                 for i in list(range(1, 4, 2)):
-                                     stimuli[i].draw()
-                                 win.flip()
-                                 core.wait((1/freq)/2)
-                                 
-                         response = kb.getKeys(keyList = ['z', 'm'])
-                                 
-                         if response[-1].name == ['m']: 
-                             keyPressed_1back = keyPressed_last
-                             keyPressed_last = response[-1].name
-                             forward = False 
+                         if response[-1] == ['z']: # horizontal - LR
+                             forward = True
+                             keyPressed_last = response[-1]   
+                             print('z')
                              flag_change=1 #???
                              break
 
-
-
-             	 elif idx==min_index: # if min boundary is reached, wait for key response - z: vertical
-         	 		 while 1:
-
-                         width= width_val(idx)
-                         height= height_val(idx)
-                         
-                         # prepare stimuli
-                         upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                             width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                             stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                             width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                             stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                         stimuli = [upper_left, upper_right, lower_right, lower_left]
-                         
-                         kb.getKeys(keyList = ['z', 'm'])
-                         
-                         duration = 1  # seconds
-                         for i in list(range(0, duration)):
-                 
-                             # 1 second
-                             for i in list(range(0, freq)):
-                 
-                                 for i in list(range(0, 3, 2)):
-                                     stimuli[i].draw()
-                                 win.flip()
-                                 core.wait((1/freq)/2)
-                 
-                                 for i in list(range(1, 4, 2)):
-                                     stimuli[i].draw()
-                                 win.flip()
-                                 core.wait((1/freq)/2)
-                                 
-                         response = kb.getKeys(keyList = ['z', 'm'])
-                                 
-                         if response[-1].name == ['z']: 
-                             keyPressed_1back = keyPressed_last
-                             keyPressed_last = response[-1].name
-                             forward = True 
+                         elif response[-1] == ['m']: # vertical - UD
+                             forward = False
+                             keyPressed_last = response[-1]  
+                             print('m')
                              flag_change=1 #???
                              break
 
@@ -242,132 +153,97 @@ for block in range(1, block_number_experiment+1):
 
 
 
+             ## CHECK FOR EXTREME BOUNDARIES
+             elif index == max_index: # if max boundary is reached, wait for key response - m: vertical
+                 
+                 while 1:
 
-             	 else: # other than the very start & extremes
-
-             	 	 width= width_val(idx)
-	                 height= height_val(idx)
-	                 
-	                 # prepare stimuli
-	                 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-	                    width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-	                 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-	                    stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-	                 lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-	                    width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-	                 lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-	                    stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-	                 stimuli = [upper_left, upper_right, lower_right, lower_left]
-	                
-	                 kb.getKeys(keyList = ['z', 'm']) # memory resets here!
-	                 kb.clock.reset()
-
-               		 for i in list(range(0, duration)):
-        
-	                     # 1 second
-	                     for i in list(range(0, freq)):
-	        
-	                        for i in list(range(0, 3, 2)):
-	                             stimuli[i].draw()
-	                         win.flip()
-	                         core.wait((1/freq)/2)
-	        
-	                         for i in list(range(1, 4, 2)):
-	                             stimuli[i].draw()
-	                         win.flip()
-	                         core.wait((1/freq)/2)
-
-                     if len(response)>0: # OR response.size > 0 # check if there is a key response
-                     	 keyPressed_1back = keyPressed_last
-                     	 keyPressed_last = response[-1].name
-
-                     	 if keyPressed_1back != keyPressed_last: # the last two key presses must be different to count as a cycle & for change of direction (forward)
-                     	 	 if forward==True:
-                     	 	 	 forward=False
-                     	 	 	 flag_continue1more=True
-                     	 	 	 flag_change=1 #???
-                 	 	 	 elif forward==False
-                 	 	 	 	 forward=True
-                 	 	 	 	 flag_continue1more=True
-                 	 	 	 	 flag_change=1 #???
-
-                     	 else: # if the last two key presses are the same: no change of direction
-                     	 	 continue # 'forward' variable will stay the same
+                     width= width_val[index]
+                     height= height_val[index]
+                         
+                     # prepare stimuli
+                     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                         width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                         stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                         width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                         stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     stimuli = [upper_left, upper_right, lower_right, lower_left]
+                     
+                     kb.getKeys(keyList = ['z', 'm'])
+                     
+                     duration = 1  # seconds
+                     for i in list(range(0, duration)):
+             
+                         # 1 second
+                         for i in list(range(0, freq)):
+             
+                             for i in list(range(0, 3, 2)):
+                                 stimuli[i].draw()
+                             win.flip()
+                             core.wait((1/freq)/2)
+             
+                             for i in list(range(1, 4, 2)):
+                                 stimuli[i].draw()
+                             win.flip()
+                             core.wait((1/freq)/2)
+                             
+                     response = kb.getKeys(keyList = ['z', 'm'])
+                             
+                     if response[-1].name == ['m']: 
+                         keyPressed_1back = keyPressed_last
+                         keyPressed_last = response[-1].name
+                         forward = False 
+                         flag_change=1 #???
+                         break
 
 
 
+             elif index==min_index: # if min boundary is reached, wait for key response - z: vertical
+                 while 1:
 
-                 	 	 if flag_continue1more: # after key response show stimuli for one more 'duration'
-
-                 	 	 	 if forward==False: # show forward direction one more
-                 	 	 	 	 index =+ 1
-
-                 	 	 	 	 width= width_val(idx)
-				                 height= height_val(idx)
-				                 
-				                 # prepare stimuli
-				                 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-				                    width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-				                    stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-				                    width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-				                    stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 stimuli = [upper_left, upper_right, lower_right, lower_left]
-				                
-
-
-			               		 for i in list(range(0, duration)):
-			        
-				                     # 1 second
-				                     for i in list(range(0, freq)):
-				        
-				                        for i in list(range(0, 3, 2)):
-				                             stimuli[i].draw()
-				                         win.flip()
-				                         core.wait((1/freq)/2)
-				        
-				                         for i in list(range(1, 4, 2)):
-				                             stimuli[i].draw()
-				                         win.flip()
-				                         core.wait((1/freq)/2)
-
-
-
-                 	 	 	 elif forward==True: # show non-forward/reverse direction one more
-                 	 	 	 	index =- 1
-
-								 width= width_val(idx)
-				                 height= height_val(idx)
-				                 
-				                 # prepare stimuli
-				                 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-				                    width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-				                    stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-				                    width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-				                    stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-				                 stimuli = [upper_left, upper_right, lower_right, lower_left]
-				                
-
-
-			               		 for i in list(range(0, duration)):
-			        
-				                     # 1 second
-				                     for i in list(range(0, freq)):
-				        
-				                        for i in list(range(0, 3, 2)):
-				                             stimuli[i].draw()
-				                         win.flip()
-				                         core.wait((1/freq)/2)
-				        
-				                         for i in list(range(1, 4, 2)):
-				                             stimuli[i].draw()
-				                         win.flip()
-				                         core.wait((1/freq)/2)
+                     width= width_val[index]
+                     height= height_val[index]
+                     
+                     # prepare stimuli
+                     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                         width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                         stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                         width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                         stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                     stimuli = [upper_left, upper_right, lower_right, lower_left]
+                     
+                     kb.getKeys(keyList = ['z', 'm'])
+                     
+                     duration = 1  # seconds
+                     for i in list(range(0, duration)):
+             
+                         # 1 second
+                         for i in list(range(0, freq)):
+             
+                             for i in list(range(0, 3, 2)):
+                                 stimuli[i].draw()
+                             win.flip()
+                             core.wait((1/freq)/2)
+             
+                             for i in list(range(1, 4, 2)):
+                                 stimuli[i].draw()
+                             win.flip()
+                             core.wait((1/freq)/2)
+                             
+                     response = kb.getKeys(keyList = ['z', 'm'])
+                             
+                     if response[-1].name == ['z']: 
+                         keyPressed_1back = keyPressed_last
+                         keyPressed_last = response[-1].name
+                         forward = True 
+                         flag_change=1 #???
+                         break
 
 
 
@@ -376,9 +252,145 @@ for block in range(1, block_number_experiment+1):
 
 
 
+             else: # other than the very start & extremes
+
+                 width= width_val[index]
+                 height= height_val[index]
+                 
+                 # prepare stimuli
+                 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                     width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                     stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                     width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                     stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                 stimuli = [upper_left, upper_right, lower_right, lower_left]
+
+                 kb.getKeys(keyList = ['z', 'm']) # memory resets here!
+                 kb.clock.reset()
+
+                 for i in list(range(0, duration)):
+    
+                     # 1 second
+                     for i in list(range(0, freq)):
+ 
+                         for i in list(range(0, 3, 2)):
+                             stimuli[i].draw()
+                         win.flip()
+                         core.wait((1/freq)/2)
+
+                         for i in list(range(1, 4, 2)):
+                             stimuli[i].draw()
+                         win.flip()
+                         core.wait((1/freq)/2)
 
 
-             	
+                 response = kb.getKeys(keyList = ['z', 'm'])
+
+                 if len(response)>0: # OR response.size > 0 # check if there is a key response
+                     keyPressed_1back = keyPressed_last
+                     keyPressed_last = response[-1].name
+
+                     if keyPressed_1back != keyPressed_last: # the last two key presses must be different to count as a cycle & for change of direction (forward)
+                         if forward==True:
+                             forward=False
+                             flag_continue1more=True
+                             flag_change=1 #??? record number of responses for each cycle
+                         elif forward==False:
+                             forward=True
+                             flag_continue1more=True
+                             flag_change=1 #???
+
+                     else: # if the last two key presses are the same: no change of direction
+                         continue # 'forward' variable will stay the same
+
+
+
+
+                     if flag_continue1more: # after key response show stimuli for one more 'duration'
+
+                         if forward==False: # show forward direction one more
+                             index =+ 1
+
+                             width= width_val[index]
+                             height= height_val[index]
+            
+                             # prepare stimuli
+                             upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                                width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                                stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                                width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                                stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             stimuli = [upper_left, upper_right, lower_right, lower_left]
+      
+
+
+                             for i in list(range(0, duration)):
+
+                                 # 1 second
+                                 for i in list(range(0, freq)):
+                    
+                                     for i in list(range(0, 3, 2)):
+                                         stimuli[i].draw()
+                                     win.flip()
+                                     core.wait((1/freq)/2)
+
+                                     for i in list(range(1, 4, 2)):
+                                         stimuli[i].draw()
+                                     win.flip()
+                                     core.wait((1/freq)/2)
+
+
+
+                         elif forward==True: # show non-forward/reverse direction one more
+                             index =- 1
+
+                             width= width_val[index]
+                             height= height_val[index]
+           
+                             # prepare stimuli
+                             upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                               width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
+                               stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
+                               width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
+                               stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
+                             stimuli = [upper_left, upper_right, lower_right, lower_left]
+
+
+
+                             for i in list(range(0, duration)):
+
+                                 # 1 second
+                                 for i in list(range(0, freq)):
+
+                                     for i in list(range(0, 3, 2)):
+                                         stimuli[i].draw()
+                                     win.flip()
+                                     core.wait((1/freq)/2)
+
+                                     for i in list(range(1, 4, 2)):
+                                         stimuli[i].draw()
+                                     win.flip()
+                                     core.wait((1/freq)/2)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -386,9 +398,9 @@ for block in range(1, block_number_experiment+1):
 
                  # CHECK WHETHER WIDTH SHOULD INCREASE OR DECREASE
                  if forward:
-	             	index =+ 1 # forward
-	        	 else:
-	             	index =- 1 # reverse  
+                     index =+ 1 # forward
+                 else:
+                     index =- 1 # reverse  
 
 
 
