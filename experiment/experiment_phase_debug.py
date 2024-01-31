@@ -50,15 +50,19 @@ duration = 1 # for how many seconds the quartets of the same AR will be shown
 
 # fixation cross
 fixation = visual.ShapeStim(win,
-                            vertices=((0, -0.05), (0, 0.05), (0, 0),
-                                      (-0.05, 0), (0.05, 0)),
-                            lineWidth=75,
+                            vertices=((0, -10), (0, 10), (0, 0),
+                                      (-10, 0), (10, 0)),
+                            lineWidth=65,
                             closeShape=False,
                             lineColor="white"
                             )
 
 
 experimental_values = list(range(1,101,1))
+
+# experimental_values = np.arange(1, 10, 0.1).tolist() + list(range(10,101,1)) # float & integer
+# square_values_index=experimental_values.index(10)
+
 max_index = np.argmax(experimental_values)
 min_index = np.argmin(experimental_values)
 hxw=float(experimental_values[-1])
@@ -74,7 +78,8 @@ keyPressed_1back=[]
 flag_continue1more=False
 
 for block in range(1, block_number_experiment+1):
-    
+     print('block:', block)
+     
      fixation.draw()
      win.flip()
      core.wait(2)
@@ -89,7 +94,7 @@ for block in range(1, block_number_experiment+1):
 
      while  cycle < cycle_number_experiment: # trial is based on each participant's cycle==key response count=2
 
-         cycle += 1
+         cycle += 1 # placement should it be at the end within flag_change loop
          print('CYCLE increase')
          print('cycle number:', cycle)
          
