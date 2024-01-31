@@ -90,6 +90,7 @@ for block in range(1, block_number_experiment+1):
 
          # EXPANDING & SHRINKING 
          while flag_change==0: # should be 1 when there are two different key responses
+             print('index', index)
 
              if index==9: # the very start: square and participant has to respond. 10 (width) x 10 (height) = 100 (hxw)
 
