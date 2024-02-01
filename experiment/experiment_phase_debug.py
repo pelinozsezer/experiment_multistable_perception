@@ -30,6 +30,16 @@ kb = keyboard.Keyboard()
 keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 
 
+# DATA SAVING
+experiment_folder_path='/Users/pelinozsezer/Desktop/EXP1_MP/experiment'
+experiment_file_name='experiment_data.csv'
+
+experiment_block_no=[]
+experiment_cycle_no=[]
+direction=[]
+key_response=[]
+
+
 
 ## PARAMETERS ##
 scaler = 1
@@ -328,7 +338,8 @@ for block in range(1, block_number_experiment+1):
                              #flag_change=1 #???
 
                      else: # if the last two key presses are the same: no change of direction
-                         continue # 'forward' variable will stay the same
+                         flag_continue1more=False
+                         # 'forward' variable will stay the same
 
 
 
@@ -431,6 +442,42 @@ for block in range(1, block_number_experiment+1):
              else:
                     index -= 1 # reverse  
                     print('decrease index')
+
+
+
+
+             # Data saving to memory for each block
+             experiment_block_no = experiment_block_no + block
+             experiment_cycle_no = experiment_cycle_no + cycle
+
+
+             if forward==True:
+                 direction = direction + ['increasing']
+             elif forward==False:
+                direction = direction + ['decreasing']
+
+
+             if len(keyPressed_last)>0:
+                 key_response = key_response + keyPressed_last
+             else: 
+                 key_response=key_response + ['']
+
+
+
+# SAVE DATA TO CSV FILE
+df = pd.DataFrame({'block': experiment_block_no, 'cycle': experiment_cycle_no, 'direction': direction,'key_response': key_response})
+experiment_full_file_path = experiment_folder_path + '/' + experiment_file_name
+df.to_csv(experiment_full_file_path, index=False)
+print(f"Data saved to '{experiment_full_file_path}'")
+
+
+
+
+
+
+                    
+                    
+                    
 
 
         
