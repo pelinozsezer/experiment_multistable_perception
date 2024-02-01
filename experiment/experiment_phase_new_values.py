@@ -42,7 +42,7 @@ experiment_file_name = 'experiment_data.csv'
 scaler = 1
 
 block_number_experiment = 1
-cycle_number_experiment = 50  # redefine based on participants' responses
+cycle_number_experiment = 10  # redefine based on participants' responses
 
 # MQ parameters
 stimulus_size = 10*scaler
@@ -353,12 +353,12 @@ for block in range(1, block_number_experiment+1):
                       if keyPressed_1back != keyPressed_last:
                           print('last two key responses are different')
                           if forward == True:
-                              flag_direction = 3  # for data saving
+                              flag_direction = 2  # for data saving
                               forward = False
                               flag_continue1more = True
                               #flag_change=1 #??? record number of responses for each cycle
                           elif forward == False:
-                              flag_direction = 2  # for data saving
+                              flag_direction = 3  # for data saving
                               forward = True
                               flag_continue1more = True
                               #flag_change=1 #???
