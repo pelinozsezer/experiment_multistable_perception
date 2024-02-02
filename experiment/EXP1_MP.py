@@ -1,5 +1,17 @@
-# import libraries
-#!pip install psychopy
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jan 12 09:57:44 2024
+
+@author: pelinozsezer
+"""
+
+# Written by Pelin Ozsezer
+
+### Experiment for Single Motion Quartet ###
+
+## import libraries
+# !pip install psychopy
 import os
 import sys
 import time
@@ -12,479 +24,596 @@ from psychopy import gui, core, visual, event
 from psychopy.gui import DlgFromDict
 from psychopy.core import Clock, quit, wait
 from psychopy.visual import Window
-from psychopy.hardware import keyboard
 from psychopy.event import Mouse
+from psychopy.hardware import keyboard
 
 
-# COLORS
+
+### PARAMETERS & VARIABLES ###
+
+## MQ parameters
+scaler = 1
+stimulus_size =  10*scaler
+freq = 2  # 1 cycle or freq is when all the quartets have been shown.
+# height
+# width
+
+## hardware
 color_gray = [0, 0, 0]
 color_quartets = [0.9, 0.9, 0.9]  # close to white
 
+## training phase
+training_folder_path = '/Users/pelinozsezer/Desktop/EXP1_MP/experiment'
+training_file_name = 'training_data.csv'
+n_trials_training = 20
+
+## demonstration phase
+n_trials_demonstration = 2
+
+## experiment phase
+experiment_folder_path = '/Users/pelinozsezer/Desktop/EXP1_MP/experiment'
+experiment_file_name = 'experiment_data.csv'
+block_number_experiment = 1
+trial_number_experiment = 10
+
+
+
+## Settings
+
 # window settings
-#win = visual.Window(size=[1792, 1120], color=color_gray) #units="pix", screen = 0, fullscr=False, allowGUI=True # personal laptop
-# screen = 0, fullscr=False, allowGUI=True # work laptop
-win = visual.Window(size=[1512, 982], color=color_gray, units="pix")
+# win = visual.Window(size=[1792, 1120], color=color_gray, units="pix") # screen = 0, fullscr=False, allowGUI=True  # personal laptop
+win = visual.Window(size=[1512, 982], color=color_gray, units="pix")    # screen = 0, fullscr=False, allowGUI=True  # work laptop
+
+# mouse - remove cursor!
+
+# # get refresh rate
+# refresh_r = round(win.getActualFrameRate())
+# print(f"refresh rate: {refresh_r} Hz")
 
 # keyboard settings
 kb = keyboard.Keyboard()
 keys = kb.getKeys(['z', 'm', 'space'], waitRelease=True)
 
-# mouse settings
-mouse = event.Mouse(visible=False)
-mouse.setVisible(False)
 
 
-# DATA SAVING
-experiment_folder_path='/Users/pelinozsezer/Desktop/EXP1_MP/experiment'
-training_file_name='experiment_data.csv'
-
-experiment_block_no=[]
-experiment_cycle_no=[]
-direction=[]
-key_response=[]
+## Show Information
+message = visual.TextStim(win, text='Information about the Experiment')
+message.autoDraw = True  # Automatically draw every frame
+win.flip()
+core.wait(3.0)
+message.autoDraw = False
 
 
 
-## PARAMETERS ##
-scaler = 1
-
-block_number_experiment = 1
-cycle_number_experiment = 25 # redefine based on participants' responses
-
-# MQ parameters
-stimulus_size =  10*scaler
-freq = 2  # 1 cycle or freq is when all the quartets have been shown per second
-duration = 1 # for how many seconds the quartets of the same AR will be shown
-# height
-# width
 
 
 
-### EXPERIMENTAL PHASE ###
+### TRAINING PHASE ###
+# 20 trials - z=horizontal & m=vertical
+
+corr_resp_training = 0
+accuracy_training = 0
+
+training_block_no = []
+training_trial_no = []
+training_motion_type = []
+training_key_response = []
+training_rt = []
+
+
+## Values for height & weight
+
+# Values for extending horizontally
+width_val = []
+current_value = 17.5*scaler
+
+# Add values in the increasing phase
+while current_value <= 90*scaler:
+    width_val.append(current_value)
+    current_value += 3*scaler
+
+# Subtract values in the decreasing phase
+while current_value >= 17.5*scaler:
+    width_val.append(current_value)
+    current_value -= 3*scaler
+print(width_val)
+
+# Values for extending vertically
+height_val = []
+current_value = 17.5*scaler
+
+# Add values in the increasing phase
+while current_value <= 90*scaler:
+    height_val.append(current_value)
+    current_value += 3*scaler
+
+# Subtract values in the decreasing phase
+while current_value >= 17.5*scaler:
+    height_val.append(current_value)
+    current_value -= 3*scaler
+print(height_val)
+
+
+#
+import random
+training_phase = ['vertical'] * int(n_trials_training/2) + ['horizontal'] * int(n_trials_training/2)
+random.shuffle(training_phase)
+print(training_phase)
+
+
+# prepare stimuli
+width=20
+height=20
+
+upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+stimuli = [upper_left, upper_right, lower_left, lower_right]
+
+
+while True:
+    message = visual.TextStim(win, text='"z" for horizontal; \n "m" for vertical; \n "space" for continue.').draw()
+    # message.autoDraw = True  # Automatically draw every frame
+    win.flip()
+    keyPressed = kb.waitKeys()
+    if keyPressed == ["space"]:
+        break
+# message.autoDraw = False
 
 # fixation cross
 fixation = visual.ShapeStim(win,
-                            vertices=((0, -10), (0, 10), (0, 0),
-                                      (-10, 0), (10, 0)),
-                            lineWidth=65,
-                            closeShape=False,
-                            lineColor="white"
-                            )
+    vertices=((0, -0.05), (0, 0.05), (0,0), (-0.05,0), (0.05, 0)),
+    lineWidth=75,
+    closeShape=False,
+    lineColor="white"
+)
+
+fixation.draw()
+win.flip()
+core.wait(2)
 
 
-experimental_values = list(range(1,101,1))
+training_block=0
+while accuracy_training < 0.9:
 
-# experimental_values = np.arange(1, 10, 0.1).tolist() + list(range(10,101,1)) # float & integer
-# square_values_index=experimental_values.index(10)
-
-max_index = np.argmax(experimental_values)
-min_index = np.argmin(experimental_values)
-hxw=float(experimental_values[-1])
-
-width_val = experimental_values
-height_val = [hxw / x for x in width_val]
-
-keyPressed_last=[]
-keyPressed_1back=[]
-
-
-
-flag_continue1more=False
-
-for block in range(1, block_number_experiment+1):
-     print('block:', block)
-     
-     fixation.draw()
-     win.flip()
-     core.wait(2)
     
-     cycle = 0
-   
-     
-     flag_change=0 # to exit 1 cycle: 2 key responses and they must be different, if not reached to the extremes (min & max)?
-     index=9
-     forward = []
-     cycle_start=True
-
-     while  cycle < cycle_number_experiment: # trial is based on each participant's cycle==key response count=2
-
-         cycle += 1 # placement should it be at the end within flag_change loop
-         print('CYCLE increase')
-         print('cycle number:', cycle)
-         
-         # EXPANDING & SHRINKING 
-         while flag_change==0: # should be 1 when there are two different key responses
-             print('index:', index)
-         
-             if cycle_start==True: # the very start: square and participant has to respond. 10 (width) x 10 (height) = 100 (hxw)
-                 index=9
-                 cycle_start=False
-                 
-                 width= width_val[index]
-                 height= height_val[index]
-                 
-                 # prepare stimuli
-                 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                    width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                    stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                    width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                    stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 stimuli = [upper_left, upper_right, lower_right, lower_left]
-                
-                 event.getKeys(keyList = ['z', 'm']) # memory resets here!
-                 #event.clock.reset()
-
-                 while 1: #first_cycle==True:
-                    
-                     for i in list(range(0, duration)):
-                         
-                         # 1 second
-                         for i in list(range(0, freq)):
-            
-                             for i in list(range(0, 3, 2)):
-                                 stimuli[i].draw()
-                             win.flip()
-                             core.wait((1/freq)/2)
-            
-                             for i in list(range(1, 4, 2)):
-                                 stimuli[i].draw()
-                             win.flip()
-                             core.wait((1/freq)/2)
-           
-                     response = event.getKeys(keyList = ['z', 'm'])
-                     
-                     if len(response)>0:
-                         print('key press at first trial')
-                         print("Response:", response)
-                         #first_cycle=False
-
-                         if response[-1] == 'z': # horizontal - LR
-                             forward = True
-                             keyPressed_last = response[-1]   
-                             print('z at first trial')
-                             break
-                             
-
-                         elif response[-1] == 'm': # vertical - UD
-                             forward = False
-                             keyPressed_last = response[-1]  
-                             print('m at first trial')
-                             break
-                             
-                             
+    if not training_block==0:
+        while True:
+            message = visual.TextStim(win, text='Accuracy is lower than 90%. \n It must be more than 90%. \n "space" to continue for more training.').draw()
+            # message.autoDraw = True  # Automatically draw every frame
+            win.flip()
+            keyPressed = kb.waitKeys()
+            if keyPressed == ["space"]:
+                break
 
 
+    for trial_no in range(n_trials_training):
+
+        if training_phase[trial_no]=="vertical":
+
+            fixation.draw()
+            win.flip()
+            core.wait(1)
+
+            duration = 2 # seconds
+
+            kb.getKeys()
+            kb.clock.reset()
+
+            for i in list(range(0,duration)):
+
+                # 1 second
+                for i in list(range(0,freq)):
+
+
+                    for i in list(range(0,2)):
+                        stimuli[i].draw()
+
+                    win.flip()
+                    core.wait((1/freq)/2)
+
+
+                    for i in list(range(2,4)):
+                        stimuli[i].draw()
+                    win.flip()
+                    core.wait((1/freq)/2)
+
+
+            keyPressed = kb.getKeys()
+
+            if keyPressed == []:
+                print('no response')
+                message = visual.TextStim(win, text='NO RESPONSE').draw()
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["vertical"]
+                training_key_response=training_key_response+["no response"]
+                training_rt= training_rt+ ["N/A"]
+
+                core.wait(1)
+
+            elif keyPressed[0].name == "z":
+                print(keyPressed[0].name)
+                #print(keyPressed[1].name)
+                message = visual.TextStim(win, text='INCORRECT').draw()
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["vertical"]
+                training_key_response=training_key_response+["z"]
+                training_rt= training_rt+ [keyPressed[0].rt]
+
+                core.wait(1)
+
+            elif keyPressed[0].name == "m":
+                print(keyPressed[0].name)
+                message = visual.TextStim(win, text='CORRECT').draw()
+                corr_resp_training=corr_resp_training+1
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["vertical"]
+                training_key_response=training_key_response+["m"]
+                training_rt= training_rt+ [keyPressed[0].rt]
+
+                core.wait(1)
+
+            else:
+                print(keyPressed[0].name)
+                message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["vertical"]
+                training_key_response=training_key_response+["other"]
+                training_rt= training_rt+ [keyPressed[0].rt]
+
+                core.wait(1)
+
+
+        if training_phase[trial_no]=="horizontal":
+
+            fixation.draw()
+            win.flip()
+            core.wait(1)
+
+            duration = 2 # seconds
+
+            kb.getKeys()
+            kb.clock.reset()
+
+            for i in list(range(0,duration)):
+
+
+                # 1 second
+                for i in list(range(0,freq)):
+
+                    for i in list(range(1,4,2)):
+                        stimuli[i].draw()
+                    win.flip()
+                    core.wait((1/freq)/2)
+
+
+                    for i in list(range(0,3,2)):
+
+                        stimuli[i].draw()
+                    win.flip()
+                    core.wait((1/freq)/2)
+
+            keyPressed = kb.getKeys()
+
+            if keyPressed == []:
+                print('no response')
+                message = visual.TextStim(win, text='NO RESPONSE').draw()
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["horizontal"]
+                training_key_response=training_key_response+["no response"]
+                training_rt= training_rt+ ["N/A"]
+
+                core.wait(1)
+            elif keyPressed[0].name == "z":
+                print(keyPressed[0].name)
+                message = visual.TextStim(win, text='CORRECT').draw()
+                corr_resp_training=corr_resp_training+1
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["horizontal"]
+                training_key_response=training_key_response+["z"]
+                training_rt= training_rt+ [keyPressed[0].rt]
+
+                core.wait(1)
+
+            elif keyPressed[0].name == "m":
+                print(keyPressed[0].name)
+                message = visual.TextStim(win, text='INCORRECT').draw()
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["horizontal"]
+                training_key_response=training_key_response+["m"]
+                training_rt= training_rt+ [keyPressed[0].rt]
+
+                core.wait(1)
+
+            else:
+                print(keyPressed[0].name)
+                message = visual.TextStim(win, text='INCORRECT - except z & m').draw()
+                win.flip()
+
+                training_block_no=training_block_no+[training_block+1]
+                training_trial_no=training_trial_no+[trial_no+1]
+                training_motion_type=training_motion_type+["horizontal"]
+                training_key_response=training_key_response+["other"]
+                training_rt= training_rt+ [keyPressed[0].rt]
+
+                core.wait(1)
+
+    accuracy_training = corr_resp_training/n_trials_training
+    training_block=training_block+1
+    corr_resp_training=0
+
+
+# save data from training phase
+df = pd.DataFrame({'block': training_block_no, 'trial': training_trial_no, 'motion_type': training_motion_type, 'key_response': training_key_response, 'RT': training_rt})
+training_full_file_path = training_folder_path + '/' + training_file_name
+df.to_csv(training_full_file_path, index=False)
+print(f"Data saved to '{training_full_file_path}'")
+
+while True:
+    message = visual.TextStim(win, text='Training phase has been succesfully completed. \n "space" to continue.').draw()
+    # message.autoDraw = True  # Automatically draw every frame
+    win.flip()
+    keyPressed = kb.waitKeys()
+    if keyPressed == ["space"]:
+        break
+
+
+
+
+## DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM ##
+
+
+while True:
+    message = visual.TextStim(win, text='DEMONSTRATION PHASE OF EXPERIMENTAL PARADIGM. \n "space" for continue.').draw()
+    #message.autoDraw = True  # Automatically draw every frame
+    win.flip()
+    keyPressed = kb.waitKeys()
+    if keyPressed == ["space"]:
+        break
+
+
+width_val = []
+current_value = 17.5*scaler
+
+# Add values in the increasing phase
+while current_value <= 90*scaler:
+    width_val.append(current_value)
+    current_value += 3*scaler
+
+# Subtract values in the decreasing phase
+while current_value >= 17.5*scaler:
+    width_val.append(current_value)
+    current_value -= 3*scaler
+# Now, 'values' contains the desired array
+print(width_val)
+
+max_idx_width = width_val.index(max(width_val))
+
+
+
+height_val = []
+current_value = 17.5*scaler
+
+# Add values in the increasing phase
+while current_value <= 90*scaler:
+    height_val.append(current_value)
+    current_value += 3*scaler
+
+# Subtract values in the decreasing phase
+while current_value >= 17.5*scaler:
+    height_val.append(current_value)
+    current_value -= 3*scaler
+
+# Now, 'values' contains the desired array
+print(height_val)
+
+max_idx_height = height_val.index(max(height_val))
 
 
 
 
 
 
-
-
-             ## CHECK FOR EXTREME BOUNDARIES
-             elif index == max_index: # if max boundary is reached, wait for key response - m: vertical
-                 print('max index')
-                 
-                 while 1:
-
-                     width= width_val[index]
-                     height= height_val[index]
-                         
-                     # prepare stimuli
-                     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                         width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                         stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                         width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                         stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     stimuli = [upper_left, upper_right, lower_right, lower_left]
-                     
-                     event.getKeys(keyList = ['z', 'm'])
-                     
-                     duration = 1  # seconds
-                     for i in list(range(0, duration)):
-             
-                         # 1 second
-                         for i in list(range(0, freq)):
-             
-                             for i in list(range(0, 3, 2)):
-                                 stimuli[i].draw()
-                             win.flip()
-                             core.wait((1/freq)/2)
-             
-                             for i in list(range(1, 4, 2)):
-                                 stimuli[i].draw()
-                             win.flip()
-                             core.wait((1/freq)/2)
-                             
-                     response = event.getKeys(keyList = ['z', 'm'])
-                             
-                     if len(response)>0:
-                         if response[-1] == 'm': 
-                             keyPressed_1back = keyPressed_last
-                             keyPressed_last = response[-1]
-                             forward = False 
-                             break
+message = visual.TextStim(win, text='Stimuli during the Experimental Phase')
+message.autoDraw = True  # Automatically draw every frame
+win.flip()
+core.wait(3.0)
+message.autoDraw = False
 
 
 
-             elif index==min_index: # if min boundary is reached, wait for key response - z: vertical
-                 print('min index')
-             
-                 while 1:
-
-                     width= width_val[index]
-                     height= height_val[index]
-                     
-                     # prepare stimuli
-                     upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                         width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                         stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                         width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                         stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                     stimuli = [upper_left, upper_right, lower_right, lower_left]
-                     
-                     event.getKeys(keyList = ['z', 'm'])
-                     
-                     duration = 1  # seconds
-                     for i in list(range(0, duration)):
-             
-                         # 1 second
-                         for i in list(range(0, freq)):
-             
-                             for i in list(range(0, 3, 2)):
-                                 stimuli[i].draw()
-                             win.flip()
-                             core.wait((1/freq)/2)
-             
-                             for i in list(range(1, 4, 2)):
-                                 stimuli[i].draw()
-                             win.flip()
-                             core.wait((1/freq)/2)
-                             
-                     response = event.getKeys(keyList = ['z', 'm'])
-                             
-                     if len(response)>0:
-                         if response[-1] == 'z': 
-                             keyPressed_1back = keyPressed_last
-                             keyPressed_last = response[-1]
-                             forward = True 
-                             #flag_change=1 #???
-                             break
-
-
-
-
-
-
-
-
-             else: # other than the very start & extremes
-
-                 width= width_val[index]
-                 height= height_val[index]
-                 
-                 # prepare stimuli
-                 upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                     width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                     stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                     width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                     stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                 stimuli = [upper_left, upper_right, lower_right, lower_left]
-
-                 event.getKeys(keyList = ['z', 'm']) # memory resets here!
-                 kb.clock.reset()
-
-                 for i in list(range(0, duration)):
+flag_demonstration = True
+while flag_demonstration:
     
-                     # 1 second
-                     for i in list(range(0, freq)):
- 
-                         for i in list(range(0, 3, 2)):
-                             stimuli[i].draw()
-                         win.flip()
-                         core.wait((1/freq)/2)
-
-                         for i in list(range(1, 4, 2)):
-                             stimuli[i].draw()
-                         win.flip()
-                         core.wait((1/freq)/2)
-
-
-                 response = event.getKeys(keyList = ['z', 'm'])
-
-                 if len(response)>0: # OR response.size > 0 # check if there is a key response
-                     print('key response')
-                     keyPressed_1back = keyPressed_last
-                     keyPressed_last = response[-1]
-
-                     if keyPressed_1back != keyPressed_last: # the last two key presses must be different to count as a cycle & for change of direction (forward)
-                         print('last two key responses are different')
-                         if forward==True:
-                             forward=False
-                             flag_continue1more=True
-                             #flag_change=1 #??? record number of responses for each cycle
-                         elif forward==False:
-                             forward=True
-                             flag_continue1more=True
-                             #flag_change=1 #???
-
-                     else: # if the last two key presses are the same: no change of direction
-                         flag_continue1more=False
-                         # 'forward' variable will stay the same
-
-
-
-
-                     if flag_continue1more: # after key response show stimuli for one more 'duration'
-                         print('flag_continue1more')
-
-                         if forward==False: # show forward direction one more
-                             index += 1
-
-                             width= width_val[index]
-                             height= height_val[index]
-            
-                             # prepare stimuli
-                             upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                                width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                                stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                                width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                                stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             stimuli = [upper_left, upper_right, lower_right, lower_left]
-      
-
-
-                             for i in list(range(0, duration)):
-
-                                 # 1 second
-                                 for i in list(range(0, freq)):
-                    
-                                     for i in list(range(0, 3, 2)):
-                                         stimuli[i].draw()
-                                     win.flip()
-                                     core.wait((1/freq)/2)
-
-                                     for i in list(range(1, 4, 2)):
-                                         stimuli[i].draw()
-                                     win.flip()
-                                     core.wait((1/freq)/2)
-
-
-
-                         elif forward==True: # show non-forward/reverse direction one more
-                             index -= 1
-
-                             width= width_val[index]
-                             height= height_val[index]
-           
-                             # prepare stimuli
-                             upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                               width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(
-                               stimulus_size+(width/2), stimulus_size+(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(
-                               width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(
-                               stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
-                             stimuli = [upper_left, upper_right, lower_right, lower_left]
-
-
-
-                             for i in list(range(0, duration)):
-
-                                 # 1 second
-                                 for i in list(range(0, freq)):
-
-                                     for i in list(range(0, 3, 2)):
-                                         stimuli[i].draw()
-                                     win.flip()
-                                     core.wait((1/freq)/2)
-
-                                     for i in list(range(1, 4, 2)):
-                                         stimuli[i].draw()
-                                     win.flip()
-                                     core.wait((1/freq)/2)
-
-
-
-
-
-
-
-             # CHANGING CYCLE/TRIAL - if the last two key responses are different
-             if (len(keyPressed_1back)>0 & len(keyPressed_last)>0) & (keyPressed_1back != keyPressed_last):
-                 print('flag change to 1')
-                 flag_change=1
-
-
-
-
-
-
-
-
-             # CHECK WHETHER WIDTH SHOULD INCREASE OR DECREASE
-             if forward:
-                    index += 1 # forward
-                    print('increase index')
-             else:
-                    index -= 1 # reverse  
-                    print('decrease index')
-
-
-
-
-             # Data saving to memory for each block
-             experiment_block_no = experiment_block_no + block
-             experiment_cycle_no = experiment_cycle_no + cycle
-
-
-             if forward==True:
-                 direction = direction + ['increasing']
-             elif forward==False:
-                direction = direction + ['decreasing']
-
-
-             if len(keyPressed_last)>0:
-                 key_response = key_response + keyPressed_last
-             else 
-                 key_response=key_response + ['']
-
-
-
-# SAVE DATA TO CSV FILE
-df = pd.DataFrame({'block': experiment_block_no, 'cycle': experiment_cycle_no, 'direction': direction,'key_response': key_response})
-experiment_full_file_path = experiment_folder_path + '/' + experiment_file_name
-df.to_csv(experiment_full_file_path, index=False)
-print(f"Data saved to '{experiment_full_file_path}'")
-
-
-
-
-
-
-                    
-                    
-                    
-
-
+    for iteration in range(n_trials_demonstration):
         
+        idx_counter=0
+        for width in width_val:
+            print(width)
+            height=(360/width)*scaler
+            
+            idx_counter += 1
+            
+            # prepare stimuli
+            upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=color_quartets,lineColor=color_quartets)
+            stimuli = [upper_left, upper_right, lower_right, lower_left]
+                
+            if idx_counter <= max_idx_width:
+                message = visual.TextStim(win, text='extending horizontally', pos=[0, -60])
+                message.autoDraw = True  # Automatically draw every frame
+                
+                duration = 1 # seconds
+                for i in list(range(0,duration)):
+                
+                    # 1 second
+                    for i in list(range(0,freq)):
+                    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
+                        
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
+                 
+                message.autoDraw = False   
+                    
+            elif idx_counter> max_idx_width:
+                message = visual.TextStim(win, text='shrinking horizontally', pos=[0, -60])
+                message.autoDraw = True  # Automatically draw every frame
+                
+                duration = 1 # seconds
+                for i in list(range(0,duration)):
+                
+                    # 1 second
+                    for i in list(range(0,freq)):
+                    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
+                        
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
+                        
+                message.autoDraw = False   
+                 
+            # if len(kb.getKeys()) > 0: # if a key is pressed
+            #     print('KEYYYYYYYY')
+            #     # thisKey = kb.getKeys()
+            #     # print(thisKey)
+            #     break
+        event.clearEvents()
+        
+        
+        idx_counter=0
+        for height in height_val:
+            print(height)
+            width=(360/height)*scaler
+            
+            idx_counter += 1
+            
+            # prepare stimuli
+            upper_left = visual.Circle(win, radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[11, 1, 1])
+            upper_right = visual.Circle(win,  radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), stimulus_size+(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+            lower_left = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(-stimulus_size-(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+            lower_right = visual.Circle(win,   radius=stimulus_size, units='pix', pos=(stimulus_size+(width/2), -stimulus_size-(height/2)),fillColor=[1, 1, 1],lineColor=[1, 1, 1])
+            stimuli = [upper_left, upper_right, lower_right, lower_left]
+            
+            
+            if idx_counter <= max_idx_height:
+                message = visual.TextStim(win, text='extending vertically', pos=[0, -120])
+                message.autoDraw = True  # Automatically draw every frame
+                
+                duration =  1 # seconds
+                for i in list(range(0,duration)):
+                
+                    # 1 second
+                    for i in list(range(0,freq)):
+                    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
+                        
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
+               
+                        
+                message.autoDraw = False   
+        
+        
+            elif idx_counter > max_idx_height:
+                message = visual.TextStim(win, text='shrinking vertically', pos=[0, -120])
+                message.autoDraw = True  # Automatically draw every frame
+                
+                duration =  1 # seconds
+                for i in list(range(0,duration)):
+                
+                    # 1 second
+                    for i in list(range(0,freq)):
+                    
+                        for i in list(range(0,3,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)    
+                        
+                        for i in list(range(1,4,2)):
+                            stimuli[i].draw()
+                        win.flip()
+                        core.wait((1/freq)/2)  
+                        
+                        
+                        
+                message.autoDraw = False   
+                 
+            # if len(kb.getKeys()) > 0: # if a key is pressed
+            #     print('KEYYYYYYYY')
+            #     # thisKey = kb.getKeys()
+            #     # print(thisKey)
+            #     break
+        event.clearEvents()
+        
+        
+        
+    message = visual.TextStim(win, text='End of demonstration')
+    message.autoDraw = True  # Automatically draw every frame
+    win.flip()
+    core.wait(2.0)
+    message.autoDraw = False  # Automatically draw every frame
+
+
+    
+
+    # ask participants if they want more
+    while True:
+        message = visual.TextStim(win, text='Would you like more demonstration? \n Press y for yes. \n Press n for no.').draw()
+        #message.autoDraw = True  # Automatically draw every frame
+        win.flip()
+        keyPressed = kb.waitKeys()
+        if keyPressed == ["y"]:
+            flag_demonstration = True
+            break
+        elif keyPressed == ["n"]:
+            message = visual.TextStim(win, text='continuing to the experimental phase')#.draw()
+            message.autoDraw = True  # Automatically draw every frame
+            win.flip()
+            core.wait(5.0)
+            message.autoDraw = False  # Automatically draw every frame
+            
+            flag_demonstration = False
+            break
 
 
 
@@ -496,9 +625,20 @@ print(f"Data saved to '{experiment_full_file_path}'")
 
 
 
+#def draw_motquarts(stimulus_size, freq, height, width):
 
 
 
+
+
+
+message = visual.TextStim(win, text='TERMINUS')
+message.autoDraw = True  # Automatically draw every frame
+win.flip()
+core.wait(2.0)
+
+win.close()
+core.quit()
 
 
 

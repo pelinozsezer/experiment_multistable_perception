@@ -42,7 +42,7 @@ experiment_file_name = 'experiment_data.csv'
 scaler = 1
 
 block_number_experiment = 1
-cycle_number_experiment = 10  # redefine based on participants' responses
+cycle_number_experiment = 60  # redefine based on participants' responses
 
 # MQ parameters
 stimulus_size = 10*scaler
