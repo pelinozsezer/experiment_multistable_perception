@@ -64,12 +64,13 @@ fixation = visual.ShapeStim(win,
                             )
 
 
-experimental_values = list(np.arange(2.4, 8, 0.1)) + list(range(8, 65, 1))
-square_values_index = experimental_values.index(8)
+experimental_values = np.concatenate((np.arange(2.3, 8, 0.1), np.arange(8, 65, 1)))
+experimental_values=list(experimental_values+92)
+square_values_index = experimental_values.index(100)
 
 max_index = np.argmax(experimental_values)
 min_index = np.argmin(experimental_values)
-hxw = float(experimental_values[-1])
+hxw = 10000#float(experimental_values[-1])
 
 width_val = experimental_values
 height_val = [hxw / x for x in width_val]
@@ -83,11 +84,7 @@ flag_continue1more = False
 for block in range(1, block_number_experiment+1):
     print('block:', block)
 
-    experiment_block_no = []
-    experiment_cycle_no = []
-    experiment_AR = []
-    direction = []
-    key_response = []
+
 
     keyPressed_last = []
     keyPressed_1back = []
@@ -108,6 +105,12 @@ for block in range(1, block_number_experiment+1):
           cycle += 1  # placement should it be at the end within flag_change loop
           print('CYCLE increase')
           print('cycle number:', cycle)
+          
+          experiment_block_no = []
+          experiment_cycle_no = []
+          experiment_AR = []
+          direction = []
+          key_response = []
 
           # EXPANDING & SHRINKING
           key_couple_1 = []
@@ -137,12 +140,12 @@ for block in range(1, block_number_experiment+1):
                       stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
                   stimuli = [upper_left, upper_right, lower_right, lower_left]
 
-                  event.getKeys(keyList=['z', 'm'])  # memory resets here!
+                  event.getKeys(keyList=['z', 'm', 'escape'])  # memory resets here!
                   #event.clock.reset()
 
                   while 1:  # first_cycle==True:
 
-                      for i in list(0, duration): # change to float
+                      for i in list(range(0, duration)): # change to float
 
                           # 1 second
                           for i in list(range(0, freq)):
@@ -157,7 +160,8 @@ for block in range(1, block_number_experiment+1):
                               win.flip()
                               core.wait((1/freq)/2)
 
-                      response = event.getKeys(keyList=['z', 'm'])
+                      response = event.getKeys(keyList=['z', 'm', 'escape'])
+
 
                       if len(response) > 0:
                           check_key_response = True
@@ -182,6 +186,12 @@ for block in range(1, block_number_experiment+1):
                               print('m at first trial')
 
                               break
+                          elif 'escape' in response:
+                              #stop the experiment 
+                              print('Experiment has been exited.')
+                              win.close()
+                              core.quit()
+
 
               ## CHECK FOR EXTREME BOUNDARIES
               elif index == max_index:  # if max boundary is reached, wait for key response - m: vertical
@@ -205,7 +215,7 @@ for block in range(1, block_number_experiment+1):
                       stimuli = [upper_left, upper_right,
                                  lower_right, lower_left]
 
-                      event.getKeys(keyList=['z', 'm'])
+                      event.getKeys(keyList=['z', 'm', 'escape'])
 
                       duration = 1  # seconds
                       for i in list(range(0, duration)):
@@ -223,7 +233,7 @@ for block in range(1, block_number_experiment+1):
                               win.flip()
                               core.wait((1/freq)/2)
 
-                      response = event.getKeys(keyList=['z', 'm'])
+                      response = event.getKeys(keyList=['z', 'm', 'escape'])
 
                       flag_direction = 4  # for data saving
 
@@ -233,12 +243,18 @@ for block in range(1, block_number_experiment+1):
                               keyPressed_1back = keyPressed_last
                               keyPressed_last = response[-1]
                               forward = False
+                              if 'escape' in response:
+                                  #stop the experiment 
+                                  print('Experiment has been exited.')
+                                  win.close()
+                                  core.quit()
                               if key_couple_1 == [] and key_couple_2 == []:
                                   key_couple_1 = response[-1]
                               elif (key_couple_1 != [] and key_couple_2 == []) and key_couple_1 != response[-1]:
                                   key_couple_2 = response[-1]
 
                               break
+                              
 
               elif index == min_index:  # if min boundary is reached, wait for key response - z: vertical
                   print('min index')
@@ -261,7 +277,7 @@ for block in range(1, block_number_experiment+1):
                       stimuli = [upper_left, upper_right,
                                  lower_right, lower_left]
 
-                      event.getKeys(keyList=['z', 'm'])
+                      event.getKeys(keyList=['z', 'm', 'escape'])
 
                       duration = 1  # seconds
                       for i in list(range(0, duration)):
@@ -279,7 +295,7 @@ for block in range(1, block_number_experiment+1):
                               win.flip()
                               core.wait((1/freq)/2)
 
-                      response = event.getKeys(keyList=['z', 'm'])
+                      response = event.getKeys(keyList=['z', 'm', 'escape'])
 
                       flag_direction = 5  # for data saving
 
@@ -289,6 +305,11 @@ for block in range(1, block_number_experiment+1):
                               keyPressed_1back = keyPressed_last
                               keyPressed_last = response[-1]
                               forward = True
+                              if 'escape' in response:
+                                  #stop the experiment 
+                                  print('Experiment has been exited.')
+                                  win.close()
+                                  core.quit()
                               if key_couple_1 == [] and key_couple_2 == []:
                                   key_couple_1 = response[-1]
                               elif (key_couple_1 != [] and key_couple_2 == []) and key_couple_1 != response[-1]:
@@ -313,7 +334,7 @@ for block in range(1, block_number_experiment+1):
                       stimulus_size+(width/2), -stimulus_size-(height/2)), fillColor=color_quartets, lineColor=color_quartets)
                   stimuli = [upper_left, upper_right, lower_right, lower_left]
 
-                  event.getKeys(keyList=['z', 'm'])  # memory resets here!
+                  event.getKeys(keyList=['z', 'm', 'escape'])  # memory resets here!
                   kb.clock.reset()
 
                   for i in list(range(0, duration)):
@@ -331,7 +352,7 @@ for block in range(1, block_number_experiment+1):
                           win.flip()
                           core.wait((1/freq)/2)
 
-                  response = event.getKeys(keyList=['z', 'm'])
+                  response = event.getKeys(keyList=['z', 'm', 'escape'])
 
                   if response == []:
                       check_key_response = False
@@ -340,6 +361,11 @@ for block in range(1, block_number_experiment+1):
                   elif len(response) > 0:  # OR response.size > 0 # check if there is a key response
                       check_key_response = True
                       print('key response')
+                      if 'escape' in response:
+                         #stop the experiment 
+                         print('Experiment has been exited.')
+                         win.close()
+                         core.quit()
                       keyPressed_1back = keyPressed_last
                       keyPressed_last = response[-1]
 
@@ -451,42 +477,49 @@ for block in range(1, block_number_experiment+1):
                   flag_change = 1
 
               # Data saving to memory for each block
-              experiment_block_no = experiment_block_no + [block]
-              experiment_cycle_no = experiment_cycle_no + [cycle]
-              experiment_AR = experiment_AR + [AR]
+              experiment_block_no =  [block]
+              experiment_cycle_no =  [cycle]
+              experiment_AR = [AR]
 
               # for data saving
               if flag_direction == 1:
-                  direction = direction + ['very start']
+                  direction =  ['very start']
               elif flag_direction == 2:
-                  direction = direction + ['increasing']
+                  direction =  ['increasing']
               elif flag_direction == 3:
-                  direction = direction + ['decreasing']
+                  direction =  ['decreasing']
               elif flag_direction == 4:
-                  direction = direction + ['max index']
+                  direction =  ['max index']
               elif flag_direction == 5:
-                  direction = direction + ['min index']
+                  direction = ['min index']
 
               if check_key_response == False:
-                  key_response = key_response + [['']]
+                  key_response = [['']]
               elif check_key_response == True:
-                  key_response = key_response + [keyPressed_last]
+                  key_response = [keyPressed_last]
+                  
+                  
+                  
+                  
+                  
 
-      # SAVE DATA TO CSV FILE for each block
-    if block == 1:
-          df = pd.DataFrame({'block': experiment_block_no, 'cycle': experiment_cycle_no,
-                            'AR': experiment_AR, 'direction': direction, 'key_response': key_response})
-          experiment_full_file_path = experiment_folder_path + '/' + experiment_file_name
-          df.to_csv(experiment_full_file_path, index=False)
-          print(f"Data saved to '{experiment_full_file_path}'")
-
-    else:
-          new_df = pd.DataFrame({'block': experiment_block_no, 'cycle': experiment_cycle_no,
-                                'AR': experiment_AR, 'direction': direction, 'key_response': key_response})
-          experiment_full_file_path = experiment_folder_path + '/' + experiment_file_name
-          new_df.to_csv(experiment_full_file_path,
-                        mode='a', header=False, index=False)
-          print(f"Data saved to '{experiment_full_file_path}'")
+              # SAVE DATA TO CSV FILE for each block
+              if block == 1 and cycle == 1:
+                  df = pd.DataFrame({'block': experiment_block_no, 'cycle': experiment_cycle_no,
+                                    'AR': experiment_AR, 'direction': direction, 'key_response': key_response})
+                  experiment_full_file_path = experiment_folder_path + '/' + experiment_file_name
+                  df.to_csv(experiment_full_file_path, index=False)
+                  print(f"Data saved to '{experiment_full_file_path}'")
+        
+              else:
+                  new_df = pd.DataFrame({'block': experiment_block_no, 'cycle': experiment_cycle_no,
+                                        'AR': experiment_AR, 'direction': direction, 'key_response': key_response})
+                  experiment_full_file_path = experiment_folder_path + '/' + experiment_file_name
+                  new_df.to_csv(experiment_full_file_path,
+                                mode='a', header=False, index=False)
+                  print(f"Data saved to '{experiment_full_file_path}'")
+                  
+                  
 
 
 elapsed_time = time.perf_counter() - start_time
